@@ -218,6 +218,82 @@ func test_moles_can_beat_army() -> void:
 	assert_false(run.is_won())
 
 
+func test_moles_defeated_counted() -> void:
+	var run := _run({"moles": [{"z": 20.0, "x": 0.0, "count": 4}]})
+	_run_to(run, 30.0)
+	assert_eq(run.moles_defeated, 4)
+
+
+# --- Cages -------------------------------------------------------------------
+
+func test_cage_freed_after_beating_moles() -> void:
+	var run := _run({"moles": [{"z": 20.0, "x": 0.0, "count": 10, "cage": 15}], "start_count": 30})
+	watch_signals(run)
+	_run_to(run, 40.0)
+	assert_eq(run.army.count, 30 - 10 + 15)
+	assert_true(run.moles[0].cage_opened)
+	assert_signal_emitted(run, "cage_opened")
+
+
+func test_cage_lost_when_moles_dodged() -> void:
+	var run := _run({"moles": [{"z": 20.0, "x": -4.0, "count": 5, "cage": 15}]})
+	run.set_target_x(4.3)
+	run.army.set_center_x(4.3)
+	_run_to(run, 40.0)
+	assert_eq(run.army.count, 10)
+	assert_false(run.moles[0].cage_opened)
+
+
+func test_cage_after_acorns_needs_walking_over_it() -> void:
+	var level := {"moles": [{"z": 40.0, "x": -3.0, "count": 3, "cage": 6}]}
+	# Shot clear from afar, then walked over: freed
+	var run := _run(level, true)
+	run.set_target_x(-3.0)
+	run.army.set_center_x(-3.0)
+	_run_to(run, 50.0)
+	assert_eq(run.moles[0].count, 0)
+	assert_eq(run.army.count, 16)
+	# Shot clear from afar, then steered away: missed
+	var away := _run(level, true)
+	away.set_target_x(-3.0)
+	away.army.set_center_x(-3.0)
+	away.update(2.0)
+	assert_eq(away.moles[0].count, 0)
+	away.set_target_x(4.3)
+	_run_to(away, 50.0)
+	assert_eq(away.army.count, 10)
+	assert_false(away.moles[0].cage_opened)
+	assert_true(away.moles[0].cage_missed)
+
+
+# --- Chasing moles -----------------------------------------------------------
+
+func test_chasing_moles_move_towards_army() -> void:
+	var run := _run({"moles": [{"z": 25.0, "x": -4.0, "count": 5, "chase": 2.0}]})
+	run.set_target_x(4.0)
+	run.army.set_center_x(4.0)
+	run.update(0.5)  # Still out of range: 25 - 4.5 > CHASE_RANGE
+	assert_eq(run.moles[0].x, -4.0)
+	run.update(0.5)  # In range now
+	assert_gt(run.moles[0].x, -4.0)
+	assert_lte(run.moles[0].x, -4.0 + 2.0 * 0.5 + 0.001)
+
+
+func test_chasing_moles_stay_on_lane() -> void:
+	var run := _run({"moles": [{"z": 15.0, "x": 3.0, "count": 5, "chase": 50.0}]})
+	run.set_target_x(4.3)
+	run.army.set_center_x(4.3)
+	run.update(1.0)
+	assert_lte(run.moles[0].x, 4.3)
+
+
+func test_plain_moles_do_not_move() -> void:
+	var run := _run({"moles": [{"z": 15.0, "x": -3.0, "count": 5}]})
+	run.set_target_x(4.0)
+	run.update(1.0)
+	assert_eq(run.moles[0].x, -3.0)
+
+
 func test_acorn_kills_mole() -> void:
 	var run := _run({"moles": [{"z": 30.0, "x": 0.0, "count": 40}]}, true)
 	run.update(1.5)

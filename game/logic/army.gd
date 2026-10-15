@@ -29,6 +29,10 @@ func pass_gate_pair(pair: GatePair) -> void:
 	_set_count(pair.apply(count, center_x))
 
 
+func add(n: int) -> void:
+	_set_count(count + n)
+
+
 func remove(n: int) -> void:
 	_set_count(count - n)
 

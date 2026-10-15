@@ -7,6 +7,7 @@ extends RefCounted
 signal pair_passed(pair: GatePair, gate: Gate)
 signal gate_hit(pair: GatePair, gate: Gate)
 signal fight_started(group: MoleGroup)
+signal cage_opened(group: MoleGroup)
 signal boss_reached
 
 const STEP := 1.0 / 60.0
@@ -19,6 +20,8 @@ const MOLE_INTERVAL := 0.035
 ## The army keeps running at this fraction of its speed while it fights a
 ## mole group, pushing the moles ahead instead of stopping dead.
 const MOLE_FIGHT_SPEED := 0.5
+## Chasing moles start closing in when the army is this close.
+const CHASE_RANGE := 20.0
 const MOWER_INTERVAL := 0.045
 const EPSILON := 1e-6
 
@@ -34,6 +37,7 @@ var target_x := 0.0
 var fire_rate := 5.0
 var acorns := PackedVector2Array()
 var shots_fired := 0
+var moles_defeated := 0
 var fighting: MoleGroup = null
 var at_boss := false
 
@@ -87,6 +91,7 @@ static func boss_interval(army_count: int) -> float:
 func _step(dt: float) -> void:
 	time += dt
 	army.set_center_x(lerpf(army.center_x, target_x, minf(1.0, dt * STEER_RATE)))
+	_chase(dt)
 	_update_acorns(dt)
 	_fire(dt)
 	if at_boss:
@@ -118,6 +123,7 @@ func _move(dt: float) -> void:
 			return
 
 	_check_moles()
+	_check_cages()
 	if boss and distance >= stop:
 		at_boss = true
 		boss_reached.emit()
@@ -147,10 +153,37 @@ func _fight_moles(dt: float) -> void:
 	while _fight_accum >= MOLE_INTERVAL - EPSILON and fighting.count > 0 and not army.is_defeated():
 		_fight_accum -= MOLE_INTERVAL
 		fighting.count -= 1
+		moles_defeated += 1
 		army.remove(1)
 	if fighting.count <= 0:
 		fighting.resolved = true
 		fighting = null
+
+
+## A freed cage opens when the army walks over it; passing it loses it.
+func _check_cages() -> void:
+	var r := army.radius()
+	for group in moles:
+		if not group.cage_waiting():
+			continue
+		var reach := r + MoleGroup.CAGE_RADIUS
+		if distance - group.z > reach:
+			group.cage_missed = true
+		elif absf(distance - group.z) < reach and absf(army.center_x - group.x) < reach:
+			group.cage_opened = true
+			army.add(group.cage)
+			cage_opened.emit(group)
+
+
+## Chasing moles slide sideways towards the army once it is in range.
+func _chase(dt: float) -> void:
+	for group in moles:
+		if group.chase <= 0.0 or group.resolved or group == fighting:
+			continue
+		var ahead := group.z - distance
+		if ahead < 0.0 or ahead > CHASE_RANGE:
+			continue
+		group.x = clampf(move_toward(group.x, army.center_x, group.chase * dt), -army.x_limit, army.x_limit)
 
 
 func _fight_boss(dt: float) -> void:
@@ -216,6 +249,7 @@ func _acorn_hits(x: float, from: float, to: float) -> bool:
 			continue
 		if group.z > from and group.z <= to and absf(x - group.x) < group.radius():
 			group.count -= 1
+			moles_defeated += 1
 			if group.count <= 0:
 				group.resolved = true
 				if fighting == group:

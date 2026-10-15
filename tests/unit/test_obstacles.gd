@@ -9,6 +9,24 @@ func test_mole_group_from_dict() -> void:
 	assert_false(group.resolved)
 
 
+func test_mole_group_variants_default_off() -> void:
+	var group := MoleGroup.from_dict({"z": 70.0, "x": -2.0, "count": 12})
+	assert_eq(group.cage, 0)
+	assert_eq(group.chase, 0.0)
+
+
+func test_mole_group_cage_and_chase() -> void:
+	var group := MoleGroup.from_dict({"z": 70.0, "x": -2.0, "count": 12, "cage": 16, "chase": 1.5})
+	assert_eq(group.cage, 16)
+	assert_eq(group.chase, 1.5)
+
+
+func test_army_add() -> void:
+	var army := Army.new(5, 4.3)
+	army.add(7)
+	assert_eq(army.count, 12)
+
+
 func test_mole_group_radius_like_army() -> void:
 	assert_eq(MoleGroup.from_dict({"z": 0.0, "x": 0.0, "count": 25}).radius(), Army.radius_for(25))
 

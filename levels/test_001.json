@@ -6,19 +6,20 @@
   "speed": 9.0,
   "gate_pairs": [
     { "z": 32.0,  "left": { "op": "add", "value": 12 }, "right": { "op": "add", "value": -8 } },
-    { "z": 58.0,  "left": { "op": "mul", "value": 2 },  "right": { "op": "add", "value": 10 } },
+    { "z": 58.0,  "left": { "op": "mul", "value": 2 },  "right": { "op": "add", "value": 6 } },
     { "z": 84.0,  "left": { "op": "add", "value": -15 }, "right": { "op": "mul", "value": 2 } },
     { "z": 110.0, "left": { "op": "add", "value": 20 }, "right": { "op": "div", "value": 2 } },
     { "z": 136.0, "left": { "op": "mul", "value": 3 },  "right": { "op": "add", "value": -20 } },
     { "z": 162.0, "left": { "op": "add", "value": -10 }, "right": { "op": "add", "value": 15 } }
   ],
   "moles": [
-    { "z": 71.0,  "x": -2.0, "count": 14 },
-    { "z": 123.0, "x": 2.0,  "count": 20 }
+    { "z": 55.0,  "x": -2.0, "count": 5 },
+    { "z": 71.0,  "x": 2.0,  "count": 10, "cage": 15 },
+    { "z": 123.0, "x": -3.0, "count": 20, "chase": 1.0 }
   ],
   "mowers": [
     { "z": 97.0,  "speed": 1.35, "phase": 0.0 },
     { "z": 149.0, "speed": 1.45, "phase": 2.0 }
   ],
-  "boss": { "z": 176.0, "hp": 193, "kind": "mole_king" }
+  "boss": { "z": 176.0, "hp": 176, "kind": "mole_king" }
 }

@@ -84,6 +84,24 @@ Waarden uit `docs/prototype-waarden.md`. Alle regels in `game/logic/`, met een v
 - [x] `levels/test_001.json` met poorten, mollen, maaiers en molkoning; `tests/unit/test_levels.gd` speelt elk level met een piloot zonder schieten (320 kabouters bij de baas, nodig 232)
 - [ ] Alle tests groen, nieuwe IPA, samenvatting + testinstructies; Stan test op iPhone
 
+### 7. Mollen-varianten (feedback Stan: mollen voegden niets toe)
+- [x] Bewaakte poort: groep max. 3 eenheden voor de betere poort; ontwijken = slechtere poort (alleen levelontwerp)
+- [x] Kooi (`cage`): gevangen kabouters komen vrij als de mollen verslagen zijn én het leger over de kooi loopt; voorbijlopen = kwijt
+- [x] Achtervolgers (`chase`): schuiven binnen 20 eenheden zijwaarts naar het leger (roodbruin)
+- [x] `moles_defeated` geteld voor munten per mol (M4)
+
+## Ontwerp: mollen per level (uitwerking in M3)
+
+Makkelijk beginnen, later lastiger. Losse mollen die alleen in de weg staan komen weinig voor; bijna elke groep bewaakt iets, heeft een kooi of achtervolgt.
+
+| Variant | Vanaf level | Sterkte |
+|---|---|---|
+| Bewaakte poort | 2 | groep 25–55% van het beste leger (prototype); bewaakt altijd de betere poort |
+| Grasmaaiers | 3 | prototype: `v = 1,3–2,1 + 0,05×level` |
+| Kooi | 4 | kooi = mollen × `max(1,1; 1,5 − 0,01×(level − 4))`: eerst ruim (1,5×), later krap (1,1×) |
+| Achtervolgers | 8 | `chase = min(3,0; 0,8 + 0,05×level)` eenheden/s |
+| Munten per mol | M4 | 1 munt per verslagen mol |
+
 ## Ontwerp: eerlijke bazen (uitwerking in M3)
 
 Regel: de beste route zonder schieten en zonder hulp (`best`) moet de baas halen met minstens 20% marge, dus `levens × 1,2 ≤ best` ofwel `levens ≤ 0,833 × best`. De validator rekent `best` uit met dezelfde simulatie (mollen en maaiers inbegrepen, ideaal ontwijken).
