@@ -68,7 +68,7 @@ Waarden uit `docs/prototype-waarden.md`. Alle regels in `game/logic/`, met een v
 
 ### 3. Mollen
 - [x] Groep met aantal en x; botsing als leger en groep elkaar raken, anders ontweken
-- [x] Gevecht 1-tegen-1 elke 0,035 s, leger staat stil
+- [x] Gevecht 1-tegen-1 elke 0,035 s; leger rent door op halve snelheid en duwt de mollen voor zich uit (op verzoek van Stan, i.p.v. stilstaan)
 - [x] Weergave: groep mollen met aantal erboven
 
 ### 4. Grasmaaiers

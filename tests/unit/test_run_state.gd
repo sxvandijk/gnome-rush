@@ -175,13 +175,31 @@ func test_mole_fight_one_for_one() -> void:
 	assert_true(run.moles[0].resolved)
 
 
-func test_army_stands_still_while_fighting() -> void:
+func test_army_keeps_running_slower_while_fighting() -> void:
 	var run := _run({"moles": [{"z": 20.0, "x": 0.0, "count": 8}]})
 	_run_to_fight(run)
 	assert_not_null(run.fighting)
 	var d := run.distance
 	run.update(STEP * 3)
-	assert_eq(run.distance, d)
+	assert_almost_eq(run.distance - d, 9.0 * RunState.MOLE_FIGHT_SPEED * STEP * 3, 0.0001)
+
+
+func test_moles_pushed_ahead_of_army() -> void:
+	var run := _run({"moles": [{"z": 20.0, "x": 0.0, "count": 20}], "start_count": 60})
+	_run_to_fight(run)
+	var group: MoleGroup = run.fighting
+	var z := group.z
+	run.update(STEP * 10)
+	assert_gt(group.z, z)
+	assert_gte(group.z - run.distance, run.army.radius() + group.radius() - 0.001)
+
+
+func test_no_second_fight_while_fighting() -> void:
+	var run := _run({"moles": [{"z": 20.0, "x": 0.0, "count": 10}, {"z": 22.0, "x": 0.0, "count": 5}], "start_count": 50})
+	_run_to_fight(run)
+	var first: MoleGroup = run.fighting
+	run.update(STEP * 5)
+	assert_eq(run.fighting, first)
 
 
 func test_mole_fight_speed() -> void:

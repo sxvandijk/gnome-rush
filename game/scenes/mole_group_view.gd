@@ -32,6 +32,7 @@ func setup(p_group: MoleGroup) -> void:
 
 func update_view(delta: float, fighting: bool) -> void:
 	_time += delta
+	position.z = -group.z  # Moles get pushed ahead while fighting
 	var n := mini(group.count, Army.MAX_VISIBLE)
 	var points := Army.formation(n)
 	for i in n:

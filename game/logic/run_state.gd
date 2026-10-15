@@ -16,6 +16,9 @@ const ACORN_RANGE := 42.0
 const MAX_ACORNS := 90
 const ACORN_BOSS_DAMAGE := 0.25
 const MOLE_INTERVAL := 0.035
+## The army keeps running at this fraction of its speed while it fights a
+## mole group, pushing the moles ahead instead of stopping dead.
+const MOLE_FIGHT_SPEED := 0.5
 const MOWER_INTERVAL := 0.045
 const EPSILON := 1e-6
 
@@ -86,10 +89,12 @@ func _step(dt: float) -> void:
 	army.set_center_x(lerpf(army.center_x, target_x, minf(1.0, dt * STEER_RATE)))
 	_update_acorns(dt)
 	_fire(dt)
-	if fighting:
-		_fight_moles(dt)
-	elif at_boss:
+	if at_boss:
 		_fight_boss(dt)
+	elif fighting:
+		_fight_moles(dt)
+		if not army.is_defeated():
+			_move(dt * MOLE_FIGHT_SPEED)
 	else:
 		_move(dt)
 	_update_mowers(dt)
@@ -100,6 +105,8 @@ func _move(dt: float) -> void:
 	if boss:
 		stop = boss.z - Boss.RADIUS - army.radius()
 	distance = minf(distance + level.speed * dt, stop)
+	if fighting:
+		fighting.z = maxf(fighting.z, distance + army.radius() + fighting.radius())
 
 	while _next_pair < pairs.size() and pairs[_next_pair].z <= distance:
 		var pair := pairs[_next_pair]
@@ -117,6 +124,8 @@ func _move(dt: float) -> void:
 
 
 func _check_moles() -> void:
+	if fighting:
+		return
 	var r := army.radius()
 	for group in moles:
 		if group.resolved:
