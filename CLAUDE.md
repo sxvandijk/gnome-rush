@@ -11,7 +11,10 @@ Werk zo zelfstandig mogelijk. Vraag alleen iets bij keuzes die geld kosten, acco
 - Obstakels: rijdende grasmaaiers (kosten kabouters), groepjes mollen (gevecht 1-tegen-1, ontwijkbaar).
 - Eindbaas: de molkoning met levens; elke kabouter die hem bereikt kost hem 1 leven. Eikels doen ook schade.
 - Na winst: munten. Upgrades: groter startleger, sneller schieten, schade, muntopbrengst. Skins zijn alleen cosmetisch.
-- Hoofdstukken van 20 levels met een nieuwe tuin en een nieuwe mechaniek.
+- Levelkaart zoals Candy Crush: kronkelend pad met genummerde levels; haal je een level, dan gaat het volgende open. 1–3 sterren per level (op basis van overgebleven kabouters).
+- Tussenbaas elke 5 levels (bijv. boze kat, ekster, sproeierrobot); eindbaas aan het eind van elk hoofdstuk van 20 levels (bijv. molkoning, flamingokoningin). Elk hoofdstuk = nieuwe tuin + nieuwe mechaniek.
+- Verlies = hetzelfde level opnieuw. Geen levens of wachttijden.
+- Uiterlijk: vrolijke, verzorgde low-poly stijl met goede belichting, effecten (stof, confetti, schermschud) en geluid. Het prototype is alleen voor de regels, niet voor het uiterlijk.
 - Referentie voor gevoel en getallen: het browserprototype (Stan heeft de link). Neem de regels over, niet de code.
 
 ## Eerlijkheid (harde regels, nooit van afwijken)
