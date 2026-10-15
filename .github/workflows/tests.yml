@@ -38,4 +38,11 @@ jobs:
         run: '"$GODOT" --headless --import'
 
       - name: Run GUT
-        run: '"$GODOT" --headless -s addons/gut/gut_cmdln.gd -gexit'
+        run: |
+          set -o pipefail
+          "$GODOT" --headless -s addons/gut/gut_cmdln.gd -gexit 2>&1 | tee gut.log
+          # GUT skips test scripts that fail to parse and still exits 0
+          if grep -qE "SCRIPT ERROR|Failed to load script" gut.log; then
+            echo "::error::A script failed to load; see the log above"
+            exit 1
+          fi

@@ -21,20 +21,20 @@ Volgorde: eerst een minimaal project + iOS-workflow (zo snel mogelijk een IPA op
 - [x] `export_presets.cfg`: iOS-preset (bundle-ID `com.sxvandijk.gnomerush`, dummy Team ID) + Android-preset (alleen aangemaakt)
 - [x] Versie uit tag, anders `0.1.<run_number>`
 - [x] Workflow draait groen (run 0.1.1, IPA 24 MB)
-- [ ] Stan heeft de IPA via Sideloadly op de iPhone gezet
+- [x] Stan heeft de IPA via Sideloadly op de iPhone gezet (werkt)
 
 ### 3. Test-workflow `.github/workflows/tests.yml`
 - [x] Ubuntu, Godot 4.7.2 headless, GUT op push/PR; faalt bij rode tests
 
 ### 4. Leger-logica `game/logic/army.gd` (TDD)
-- [ ] Aantal kabouters; poort toepassen `+n`, `−n`, `×n`, `÷n` (naar beneden afronden, minimum 0, 0 = verloren)
-- [ ] Deterministische formatie: posities van n kabouters rond het middelpunt
-- [ ] Middelpunt x begrensd door de baanbreedte
+- [x] Aantal kabouters; poort toepassen `+n`, `−n`, `×n`, `÷n` (naar beneden afronden, minimum 0, 0 = verloren)
+- [x] Deterministische formatie: posities van n kabouters rond het middelpunt
+- [x] Middelpunt x begrensd door de baanbreedte
 
 ### 5. Poort-logica `game/logic/gate.gd` + `gate_pair.gd` (TDD)
-- [ ] Poortpaar links/rechts; keuze op het midden van het leger
-- [ ] `hit_by_acorn()`: `+`/`−`-poort +1; `×`/`÷` onveranderd
-- [ ] Elk paar maar één keer toegepast
+- [x] Poortpaar links/rechts; keuze op het midden van het leger
+- [x] `hit_by_acorn()`: `+`/`−`-poort +1; `×`/`÷` onveranderd
+- [x] Elk paar maar één keer toegepast
 
 ### 6. Scène: leger, besturing, camera
 - [ ] `MultiMeshInstance3D` voor de kabouters, automatisch vooruit
