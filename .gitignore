@@ -1,0 +1,31 @@
+# Godot 4
+.godot/
+.import/
+*.translation
+export_credentials.cfg
+.mono/
+data_*/
+mono_crash.*.json
+
+# Exports
+export/
+exports/
+build/
+builds/
+*.apk
+*.aab
+*.ipa
+*.pck
+*.zip
+Payload/
+
+# Xcode output
+*.xcarchive
+DerivedData/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+*.tmp

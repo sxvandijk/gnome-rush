@@ -42,7 +42,8 @@ Werk zo zelfstandig mogelijk. Vraag alleen iets bij keuzes die geld kosten, acco
 - `game/scenes/`: weergave, input, camera, effecten. Gebruik MultiMeshInstance3D voor de kabouters.
 - `levels/`: levels als JSON. De validator draait in de tests over alle levels.
 - Doel: 60 fps op een iPhone uit 2020, Compatibility- of Mobile-renderer.
-- Tests draaien headless: `godot --headless -s addons/gut/gut_cmdln.gd`. Draai ze na elke wijziging aan `game/logic/`.
+- Godot op deze pc: `C:\Tools\Godot\Godot_v4.7.2-stable_win64.exe` (niet in PATH; gebruik dit volledige pad).
+- Tests draaien headless: `& "C:\Tools\Godot\Godot_v4.7.2-stable_win64.exe" --headless -s addons/gut/gut_cmdln.gd`. Draai ze na elke wijziging aan `game/logic/`.
 
 ## Bouwen en testen
 - Repo is openbaar op GitHub.
