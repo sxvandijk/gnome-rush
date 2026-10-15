@@ -1,14 +1,18 @@
 class_name LevelData
 extends RefCounted
-## A level as loaded from levels/*.json. Immutable description; call
-## create_pairs() for fresh gate state at the start of each run.
+## A level as loaded from levels/*.json. Immutable description; the create_*
+## methods return fresh objects for each run. Defaults are the prototype's.
 
 var id := ""
 var start_count := 10
-var lane_half_width := 3.0
+var lane_half_width := 6.0
+var army_x_limit := 4.3
 var length := 100.0
-var speed := 6.0
+var speed := 9.0
 var _pair_dicts: Array = []
+var _mole_dicts: Array = []
+var _mower_dicts: Array = []
+var _boss_dict: Dictionary = {}
 
 
 static func from_dict(data: Dictionary) -> LevelData:
@@ -16,9 +20,13 @@ static func from_dict(data: Dictionary) -> LevelData:
 	level.id = str(data.get("id", ""))
 	level.start_count = int(data.get("start_count", level.start_count))
 	level.lane_half_width = float(data.get("lane_half_width", level.lane_half_width))
+	level.army_x_limit = float(data.get("army_x_limit", level.army_x_limit))
 	level.length = float(data.get("length", level.length))
 	level.speed = float(data.get("speed", level.speed))
 	level._pair_dicts = data.get("gate_pairs", [])
+	level._mole_dicts = data.get("moles", [])
+	level._mower_dicts = data.get("mowers", [])
+	level._boss_dict = data.get("boss", {})
 	return level
 
 
@@ -38,3 +46,23 @@ func create_pairs() -> Array[GatePair]:
 		pairs.append(GatePair.from_dict(d))
 	pairs.sort_custom(func(a: GatePair, b: GatePair) -> bool: return a.z < b.z)
 	return pairs
+
+
+func create_moles() -> Array[MoleGroup]:
+	var moles: Array[MoleGroup] = []
+	for d in _mole_dicts:
+		moles.append(MoleGroup.from_dict(d))
+	moles.sort_custom(func(a: MoleGroup, b: MoleGroup) -> bool: return a.z < b.z)
+	return moles
+
+
+func create_mowers() -> Array[Mower]:
+	var mowers: Array[Mower] = []
+	for d in _mower_dicts:
+		mowers.append(Mower.from_dict(d))
+	return mowers
+
+
+## Null when the level has no boss; it is then won at `length`.
+func create_boss() -> Boss:
+	return Boss.from_dict(_boss_dict) if not _boss_dict.is_empty() else null

@@ -4,29 +4,42 @@ extends RefCounted
 
 signal count_changed(new_count: int, old_count: int)
 
-const GOLDEN_ANGLE := PI * (3.0 - sqrt(5.0))
-const DEFAULT_SPACING := 0.5
+const GOLDEN_ANGLE := 2.39996
+const SPACING := 0.27
+## Only this many gnomes are drawn and count towards the army's size on the
+## lane; the label always shows the real number.
+const MAX_VISIBLE := 120
+const RADIUS_MARGIN := 0.3
 
 var count: int
 var center_x := 0.0
-var lane_half_width: float
+var x_limit: float
 
 
-func _init(p_count: int, p_lane_half_width: float) -> void:
+func _init(p_count: int, p_x_limit: float) -> void:
 	count = maxi(p_count, 0)
-	lane_half_width = p_lane_half_width
+	x_limit = p_x_limit
 
 
 func set_center_x(x: float) -> void:
-	center_x = clampf(x, -lane_half_width, lane_half_width)
+	center_x = clampf(x, -x_limit, x_limit)
 
 
 func pass_gate_pair(pair: GatePair) -> void:
 	_set_count(pair.apply(count, center_x))
 
 
+func remove(n: int) -> void:
+	_set_count(count - n)
+
+
 func is_defeated() -> bool:
 	return count <= 0
+
+
+## Collision radius on the lane.
+func radius() -> float:
+	return radius_for(count)
 
 
 func _set_count(new_count: int) -> void:
@@ -36,25 +49,20 @@ func _set_count(new_count: int) -> void:
 		count_changed.emit(count, old)
 
 
+static func radius_for(n: int) -> float:
+	return SPACING * sqrt(float(mini(maxi(n, 0), MAX_VISIBLE))) + RADIUS_MARGIN
+
+
 ## Sunflower (Vogel) layout: compact, round, deterministic, and gnome i keeps
 ## its offset when the army grows, so the swarm never reshuffles.
-static func formation(n: int, spacing := DEFAULT_SPACING) -> PackedVector2Array:
+static func formation_point(i: int) -> Vector2:
+	var a := i * GOLDEN_ANGLE
+	return Vector2(cos(a), sin(a)) * SPACING * sqrt(float(i))
+
+
+static func formation(n: int) -> PackedVector2Array:
 	var points := PackedVector2Array()
 	points.resize(maxi(n, 0))
 	for i in points.size():
-		var r := spacing * sqrt(float(i))
-		var a := i * GOLDEN_ANGLE
-		points[i] = Vector2(cos(a), sin(a)) * r
+		points[i] = formation_point(i)
 	return points
-
-
-static func formation_radius(n: int, spacing := DEFAULT_SPACING) -> float:
-	return spacing * sqrt(float(maxi(n - 1, 0)))
-
-
-## Spacing that keeps an army of n gnomes within max_radius, squeezing big
-## armies together but never spreading small ones beyond the default.
-static func fitted_spacing(n: int, max_radius: float) -> float:
-	if n <= 1:
-		return DEFAULT_SPACING
-	return minf(DEFAULT_SPACING, max_radius / sqrt(float(n - 1)))

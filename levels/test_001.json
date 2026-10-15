@@ -1,14 +1,24 @@
 {
   "id": "test_001",
   "start_count": 10,
-  "lane_half_width": 3.0,
-  "length": 120.0,
-  "speed": 6.0,
+  "lane_half_width": 6.0,
+  "army_x_limit": 4.3,
+  "speed": 9.0,
   "gate_pairs": [
-    { "z": 20.0,  "left": { "op": "add", "value": 10 },  "right": { "op": "add", "value": -5 } },
-    { "z": 40.0,  "left": { "op": "mul", "value": 2 },   "right": { "op": "add", "value": -10 } },
-    { "z": 60.0,  "left": { "op": "div", "value": 2 },   "right": { "op": "add", "value": 15 } },
-    { "z": 80.0,  "left": { "op": "add", "value": -20 }, "right": { "op": "mul", "value": 3 } },
-    { "z": 100.0, "left": { "op": "add", "value": 5 },   "right": { "op": "div", "value": 3 } }
-  ]
+    { "z": 32.0,  "left": { "op": "add", "value": 12 }, "right": { "op": "add", "value": -8 } },
+    { "z": 58.0,  "left": { "op": "mul", "value": 2 },  "right": { "op": "add", "value": 10 } },
+    { "z": 84.0,  "left": { "op": "add", "value": -15 }, "right": { "op": "mul", "value": 2 } },
+    { "z": 110.0, "left": { "op": "add", "value": 20 }, "right": { "op": "div", "value": 2 } },
+    { "z": 136.0, "left": { "op": "mul", "value": 3 },  "right": { "op": "add", "value": -20 } },
+    { "z": 162.0, "left": { "op": "add", "value": -10 }, "right": { "op": "add", "value": 15 } }
+  ],
+  "moles": [
+    { "z": 71.0,  "x": -2.0, "count": 14 },
+    { "z": 123.0, "x": 2.0,  "count": 20 }
+  ],
+  "mowers": [
+    { "z": 97.0,  "speed": 1.35, "phase": 0.0 },
+    { "z": 149.0, "speed": 1.45, "phase": 2.0 }
+  ],
+  "boss": { "z": 176.0, "hp": 193, "kind": "mole_king" }
 }
