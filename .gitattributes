@@ -1,0 +1,14 @@
+# Normalize line endings so Windows and the macOS/Linux CI runners agree
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.ttf binary
+*.otf binary
+*.fnt binary
+*.wav binary
+*.ogg binary
+*.mp3 binary
+*.glb binary
+*.tpz binary
+*.zip binary
