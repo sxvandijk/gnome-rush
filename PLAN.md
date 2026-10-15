@@ -2,7 +2,7 @@
 
 Zie CLAUDE.md voor de spelregels en harde regels. Vink af wat klaar is, zodat een nieuwe sessie kan verdergaan.
 
-## M1 Kern
+## M1 Kern ✅ (afgerond 2026-10-15)
 
 Volgorde: eerst een minimaal project + iOS-workflow (zo snel mogelijk een IPA op de iPhone), daarna de spellogica.
 
@@ -47,8 +47,8 @@ Volgorde: eerst een minimaal project + iOS-workflow (zo snel mogelijk een IPA op
 - [x] Simpel einde: scherm met het aantal overgebleven kabouters
 
 ### 8. Afronding M1
-- [ ] Alle GUT-tests groen lokaal en in CI; IPA speelbaar
-- [ ] Samenvatting (NL) + testinstructies voor pc-editor en iPhone
+- [x] Alle GUT-tests groen lokaal en in CI; IPA speelbaar
+- [x] Samenvatting (NL) + testinstructies voor pc-editor en iPhone
 
 ## IPA installeren (Stan)
 1. GitHub → Actions → "iOS build" → "Run workflow" (of push een tag `v0.1.0`).
