@@ -7,23 +7,24 @@ Zie CLAUDE.md voor de spelregels en harde regels. Vink af wat klaar is, zodat ee
 Volgorde: eerst een minimaal project + iOS-workflow (zo snel mogelijk een IPA op de iPhone), daarna de spellogica.
 
 ### 1. Projectopzet (minimaal, voor de IPA)
-- [ ] `project.godot`: "Gnome Rush", renderer Mobile, portrait 1080×1920, stretch `canvas_items`/`expand`, ETC2/ASTC, GUT-plugin aan
-- [ ] Mappen `game/logic/`, `game/scenes/`, `levels/`, `tests/unit/`
-- [ ] `game/scenes/main.tscn`: placeholder-scène (gras, kabouter-kegels, licht, camera, label)
-- [ ] `.gitattributes` met LF voor Godot-, script- en workflowbestanden
-- [ ] Lokaal: `--headless --import` werkt en GUT draait één smoke-test groen
+- [x] `project.godot`: "Gnome Rush", renderer Mobile, portrait 1080×1920, stretch `canvas_items`/`expand`, ETC2/ASTC, GUT-plugin aan
+- [x] Mappen `game/logic/`, `game/scenes/`, `levels/`, `tests/unit/`
+- [x] `game/scenes/main.tscn`: placeholder-scène (gras, kabouter-kegels, licht, camera, label)
+- [x] `.gitattributes` met LF voor Godot-, script- en workflowbestanden
+- [x] Lokaal: `--headless --import` werkt en GUT draait één smoke-test groen
 
 ### 2. iOS-workflow `.github/workflows/ios.yml`
-- [ ] Trigger `workflow_dispatch` en tags `v*`, runner `macos-26`
-- [ ] Godot 4.7.2 macOS + iOS-exporttemplate downloaden (gecachet)
-- [ ] Export naar Xcode-project (`export_project_only`), `xcodebuild` zonder ondertekening
-- [ ] `Payload/` zippen tot `.ipa`, uploaden als artifact (14 dagen)
-- [ ] `export_presets.cfg`: iOS-preset (bundle-ID `com.sxvandijk.gnomerush`, dummy Team ID) + Android-preset (alleen aangemaakt)
-- [ ] Versie uit tag, anders `0.1.<run_number>`
-- [ ] Workflow draait groen; Stan heeft de IPA via Sideloadly op de iPhone
+- [x] Trigger `workflow_dispatch` en tags `v*`, runner `macos-26`
+- [x] Godot 4.7.2 macOS + iOS-exporttemplate downloaden (gecachet)
+- [x] Export naar Xcode-project (`export_project_only`), `xcodebuild` zonder ondertekening
+- [x] `Payload/` zippen tot `.ipa`, uploaden als artifact (14 dagen)
+- [x] `export_presets.cfg`: iOS-preset (bundle-ID `com.sxvandijk.gnomerush`, dummy Team ID) + Android-preset (alleen aangemaakt)
+- [x] Versie uit tag, anders `0.1.<run_number>`
+- [x] Workflow draait groen (run 0.1.1, IPA 24 MB)
+- [ ] Stan heeft de IPA via Sideloadly op de iPhone gezet
 
 ### 3. Test-workflow `.github/workflows/tests.yml`
-- [ ] Ubuntu, Godot 4.7.2 headless, GUT op push/PR; faalt bij rode tests
+- [x] Ubuntu, Godot 4.7.2 headless, GUT op push/PR; faalt bij rode tests
 
 ### 4. Leger-logica `game/logic/army.gd` (TDD)
 - [ ] Aantal kabouters; poort toepassen `+n`, `−n`, `×n`, `÷n` (naar beneden afronden, minimum 0, 0 = verloren)
