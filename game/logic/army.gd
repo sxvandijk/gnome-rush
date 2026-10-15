@@ -50,3 +50,11 @@ static func formation(n: int, spacing := DEFAULT_SPACING) -> PackedVector2Array:
 
 static func formation_radius(n: int, spacing := DEFAULT_SPACING) -> float:
 	return spacing * sqrt(float(maxi(n - 1, 0)))
+
+
+## Spacing that keeps an army of n gnomes within max_radius, squeezing big
+## armies together but never spreading small ones beyond the default.
+static func fitted_spacing(n: int, max_radius: float) -> float:
+	if n <= 1:
+		return DEFAULT_SPACING
+	return minf(DEFAULT_SPACING, max_radius / sqrt(float(n - 1)))

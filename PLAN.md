@@ -37,14 +37,14 @@ Volgorde: eerst een minimaal project + iOS-workflow (zo snel mogelijk een IPA op
 - [x] Elk paar maar één keer toegepast
 
 ### 6. Scène: leger, besturing, camera
-- [ ] `MultiMeshInstance3D` voor de kabouters, automatisch vooruit
-- [ ] Eén-duim besturing: relatief slepen links/rechts (touch + muis)
-- [ ] Camera volgt van achter/boven, licht verend
+- [x] `MultiMeshInstance3D` voor de kabouters, automatisch vooruit
+- [x] Eén-duim besturing: relatief slepen links/rechts (touch + muis)
+- [x] Camera volgt van achter/boven, licht verend
 
 ### 7. Poorten in de scène + testlevel
-- [ ] `levels/test_001.json` met een paar poortparen, ingeladen door de scène
-- [ ] Poorten tonen waarde (Label3D) en kleur (groen positief, rood negatief)
-- [ ] Simpel einde: scherm met het aantal overgebleven kabouters
+- [x] `levels/test_001.json` met een paar poortparen, ingeladen door de scène
+- [x] Poorten tonen waarde (Label3D) en kleur (groen positief, rood negatief)
+- [x] Simpel einde: scherm met het aantal overgebleven kabouters
 
 ### 8. Afronding M1
 - [ ] Alle GUT-tests groen lokaal en in CI; IPA speelbaar

@@ -1,0 +1,14 @@
+{
+  "id": "test_001",
+  "start_count": 10,
+  "lane_half_width": 3.0,
+  "length": 120.0,
+  "speed": 6.0,
+  "gate_pairs": [
+    { "z": 20.0,  "left": { "op": "add", "value": 10 },  "right": { "op": "add", "value": -5 } },
+    { "z": 40.0,  "left": { "op": "mul", "value": 2 },   "right": { "op": "add", "value": -10 } },
+    { "z": 60.0,  "left": { "op": "div", "value": 2 },   "right": { "op": "add", "value": 15 } },
+    { "z": 80.0,  "left": { "op": "add", "value": -20 }, "right": { "op": "mul", "value": 3 } },
+    { "z": 100.0, "left": { "op": "add", "value": 5 },   "right": { "op": "div", "value": 3 } }
+  ]
+}

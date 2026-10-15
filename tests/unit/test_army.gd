@@ -75,6 +75,17 @@ func test_formation_gnomes_do_not_overlap() -> void:
 	assert_gt(min_dist, spacing * 0.6)
 
 
+func test_fitted_spacing_keeps_default_for_small_armies() -> void:
+	assert_eq(Army.fitted_spacing(1, 3.0), Army.DEFAULT_SPACING)
+	assert_eq(Army.fitted_spacing(10, 3.0), Army.DEFAULT_SPACING)
+
+
+func test_fitted_spacing_keeps_big_armies_inside_radius() -> void:
+	var spacing := Army.fitted_spacing(300, 2.7)
+	assert_lt(spacing, Army.DEFAULT_SPACING)
+	assert_almost_eq(Army.formation_radius(300, spacing), 2.7, 0.001)
+
+
 func test_formation_radius_grows_with_count() -> void:
 	assert_lt(Army.formation_radius(10), Army.formation_radius(100))
 	assert_eq(Army.formation_radius(1), 0.0)
