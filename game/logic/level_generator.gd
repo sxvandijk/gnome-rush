@@ -31,6 +31,10 @@ const CAGE_FROM := 4
 const CHASE_CHANCE := 0.12
 const CHASE_FROM := 8
 const PLAIN_MOLE_CHANCE := 0.05
+# Chapter mechanics
+const SPRINKLER_CHANCE := 0.3
+const SPRINKLER_OFFSET := 5.0
+const SHIFT_CHANCE := 0.35
 
 
 static func generate(n: int) -> Dictionary:
@@ -76,6 +80,10 @@ static func cage_ratio(n: int) -> float:
 	return maxf(1.1, 1.5 - 0.01 * (n - CAGE_FROM))
 
 
+static func sprinkler_push(n: int) -> float:
+	return minf(6.0, 3.5 + 0.04 * (n - LEVELS_PER_CHAPTER))
+
+
 static func chase_speed(n: int) -> float:
 	return minf(2.0, 0.6 + 0.03 * n)
 
@@ -87,6 +95,7 @@ static func _layout(n: int, attempt: int) -> Dictionary:
 	var pairs := []
 	var moles := []
 	var mowers := []
+	var sprinklers := []
 	# Rough, cautious estimate of the army so far, to size the moles like the
 	# prototype: best gates, chasers assumed to catch the army
 	var best := START_COUNT
@@ -99,7 +108,22 @@ static func _layout(n: int, attempt: int) -> Dictionary:
 		var pair := {"z": z, "left": good if good_left else other, "right": other if good_left else good}
 		pairs.append(pair)
 
-		if n >= GUARD_FROM and rng.randf() < GUARD_CHANCE:
+		if chapter(n) >= 3 and rng.randf() < SHIFT_CHANCE:
+			pair.shift = {
+				"amp": snappedf(rng.randf_range(1.0, 2.0), 0.01),
+				"speed": snappedf(rng.randf_range(0.8, 1.4) + 0.01 * (n - 40), 0.01),
+				"phase": snappedf(rng.randf_range(0.0, TAU), 0.01),
+			}
+		if chapter(n) >= 2 and rng.randf() < SPRINKLER_CHANCE:
+			sprinklers.append({
+				"z": z - SPRINKLER_OFFSET,
+				"push": snappedf(sprinkler_push(n), 0.01),
+				"speed": snappedf(rng.randf_range(1.0, 2.0), 0.01),
+				"phase": snappedf(rng.randf_range(0.0, TAU), 0.01),
+			})
+
+		# A sliding split would let the guard end up on the wrong side
+		if n >= GUARD_FROM and not pair.has("shift") and rng.randf() < GUARD_CHANCE:
 			var left := Gate.from_dict(pair.left).apply(best)
 			var right := Gate.from_dict(pair.right).apply(best)
 			moles.append({
@@ -129,6 +153,8 @@ static func _layout(n: int, attempt: int) -> Dictionary:
 		data.moles = moles
 	if not mowers.is_empty():
 		data.mowers = mowers
+	if not sprinklers.is_empty():
+		data.sprinklers = sprinklers
 	return data
 
 

@@ -12,6 +12,7 @@ var speed := 9.0
 var _pair_dicts: Array = []
 var _mole_dicts: Array = []
 var _mower_dicts: Array = []
+var _sprinkler_dicts: Array = []
 var _boss_dict: Dictionary = {}
 
 
@@ -26,6 +27,7 @@ static func from_dict(data: Dictionary) -> LevelData:
 	level._pair_dicts = data.get("gate_pairs", [])
 	level._mole_dicts = data.get("moles", [])
 	level._mower_dicts = data.get("mowers", [])
+	level._sprinkler_dicts = data.get("sprinklers", [])
 	level._boss_dict = data.get("boss", {})
 	return level
 
@@ -61,6 +63,13 @@ func create_mowers() -> Array[Mower]:
 	for d in _mower_dicts:
 		mowers.append(Mower.from_dict(d))
 	return mowers
+
+
+func create_sprinklers() -> Array[Sprinkler]:
+	var sprinklers: Array[Sprinkler] = []
+	for d in _sprinkler_dicts:
+		sprinklers.append(Sprinkler.from_dict(d))
+	return sprinklers
 
 
 ## Null when the level has no boss; it is then won at `length`.

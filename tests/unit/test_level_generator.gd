@@ -90,6 +90,26 @@ func test_guards_stand_before_the_better_gate() -> void:
 			assert_gte(guarded.apply(100), other.apply(100), "level %d" % n)
 
 
+func test_chapter_mechanics() -> void:
+	for n in [1, 5, 12, 20]:
+		assert_false(_gen(n).has("sprinklers"), "no sprinklers in level %d" % n)
+	for n in [1, 12, 25, 39]:
+		assert_eq(_gen(n).gate_pairs.filter(func(p: Dictionary) -> bool: return p.has("shift")).size(), 0, "no sliding gates in level %d" % n)
+	var sprinklers := 0
+	for n in range(21, 25):
+		sprinklers += _gen(n).get("sprinklers", []).size()
+	assert_gt(sprinklers, 0)
+	var shifts := 0
+	for n in range(41, 44):
+		shifts += _gen(n).gate_pairs.filter(func(p: Dictionary) -> bool: return p.has("shift")).size()
+	assert_gt(shifts, 0)
+
+
+func test_sprinklers_get_stronger() -> void:
+	assert_almost_eq(LevelGenerator.sprinkler_push(21), 3.54, 0.001)
+	assert_almost_eq(LevelGenerator.sprinkler_push(60), 5.1, 0.001)
+
+
 func test_cage_gets_tighter() -> void:
 	assert_almost_eq(LevelGenerator.cage_ratio(4), 1.5, 0.001)
 	assert_almost_eq(LevelGenerator.cage_ratio(24), 1.3, 0.001)
@@ -122,7 +142,7 @@ func test_boss_factor_respects_margin() -> void:
 
 
 func test_generated_levels_are_fair() -> void:
-	for n in [1, 2, 4, 5, 8, 12, 20]:
+	for n in [1, 2, 4, 5, 8, 12, 20, 22, 41]:
 		var level := LevelData.from_dict(_gen(n))
 		var result := LevelValidator.validate(level)
 		assert_true(result.fair, "level %d: best %d needed %.0f" % [n, result.best, result.needed])

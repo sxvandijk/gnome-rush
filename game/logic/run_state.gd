@@ -33,6 +33,7 @@ var army: Army
 var pairs: Array[GatePair]
 var moles: Array[MoleGroup]
 var mowers: Array[Mower]
+var sprinklers: Array[Sprinkler]
 var boss: Boss
 var distance := 0.0
 var time := 0.0
@@ -59,6 +60,7 @@ func _init(p_level: LevelData) -> void:
 	pairs = level.create_pairs()
 	moles = level.create_moles()
 	mowers = level.create_mowers()
+	sprinklers = level.create_sprinklers()
 	boss = level.create_boss()
 	_mower_accums.resize(mowers.size())
 	_mower_accums.fill(0.0)
@@ -94,6 +96,9 @@ static func boss_interval(army_count: int) -> float:
 
 func _step(dt: float) -> void:
 	time += dt
+	for sprinkler in sprinklers:
+		if sprinkler.reaches(distance):
+			set_target_x(target_x + sprinkler.push_at(time) * dt)
 	army.set_center_x(lerpf(army.center_x, target_x, minf(1.0, dt * STEER_RATE)))
 	_chase(dt)
 	_update_acorns(dt)
@@ -119,8 +124,8 @@ func _move(dt: float) -> void:
 
 	while _next_pair < pairs.size() and pairs[_next_pair].z <= distance:
 		var pair := pairs[_next_pair]
-		var gate := pair.gate_for_x(army.center_x)
-		army.pass_gate_pair(pair)
+		var gate := pair.gate_for_x(army.center_x, time)
+		army.pass_gate_pair(pair, time)
 		_next_pair += 1
 		pair_passed.emit(pair, gate)
 		if army.is_defeated():
@@ -243,7 +248,7 @@ func _acorn_hits(x: float, from: float, to: float) -> bool:
 		if pair.z > to:
 			break
 		if pair.z > from and not pair.used:
-			var gate := pair.gate_for_x(x)
+			var gate := pair.gate_for_x(x, time)
 			gate.hit_by_acorn()
 			gate_hit.emit(pair, gate)
 			return true

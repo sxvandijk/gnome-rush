@@ -16,6 +16,8 @@ const MARGIN := 1.2
 ## is no room left to dodge it and still reach the gate behind it.
 const GUARD_DISTANCE := 6.0
 const GATE_X := 3.5
+## Distance from a sliding split the pilot keeps when it aims for a side.
+const GATE_SIDE_OFFSET := 1.5
 const MOWER_LOOKAHEAD := 16.0
 const MAX_TIME := 600.0
 
@@ -104,9 +106,15 @@ static func pilot_target(run: RunState, plan: Plan) -> float:
 	var target := run.army.center_x
 	var event_z := INF
 	for i in run.pairs.size():
-		if not run.pairs[i].used:
-			target = -GATE_X if plan.take_left[i] else GATE_X
-			event_z = run.pairs[i].z
+		var pair := run.pairs[i]
+		if not pair.used:
+			# Aim at the chosen side of the split as it will be when we cross it
+			var cross_time := run.time + maxf(0.0, pair.z - run.distance) / run.level.speed
+			var split := pair.split_x(cross_time)
+			target = split - GATE_SIDE_OFFSET if plan.take_left[i] else split + GATE_SIDE_OFFSET
+			if pair.shift_amp == 0.0:
+				target = -GATE_X if plan.take_left[i] else GATE_X
+			event_z = pair.z
 			break
 	for i in run.moles.size():
 		var group := run.moles[i]

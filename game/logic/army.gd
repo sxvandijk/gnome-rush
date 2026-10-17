@@ -25,8 +25,8 @@ func set_center_x(x: float) -> void:
 	center_x = clampf(x, -x_limit, x_limit)
 
 
-func pass_gate_pair(pair: GatePair) -> void:
-	_set_count(pair.apply(count, center_x))
+func pass_gate_pair(pair: GatePair, time := 0.0) -> void:
+	_set_count(pair.apply(count, center_x, time))
 
 
 func add(n: int) -> void:
