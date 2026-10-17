@@ -1,0 +1,237 @@
+{
+  "boss": {
+    "hp": 1399.0,
+    "kind": "mole_king",
+    "z": 358.0
+  },
+  "chapter": 3,
+  "gate_pairs": [
+    {
+      "left": {
+        "op": "add",
+        "value": -55
+      },
+      "right": {
+        "op": "mul",
+        "value": 2
+      },
+      "z": 32.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": 72
+      },
+      "right": {
+        "op": "add",
+        "value": -38
+      },
+      "shift": {
+        "amp": 1.82,
+        "phase": 3.2,
+        "speed": 1.32
+      },
+      "z": 58.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": 129
+      },
+      "right": {
+        "op": "mul",
+        "value": 2
+      },
+      "z": 84.0
+    },
+    {
+      "left": {
+        "op": "mul",
+        "value": 3
+      },
+      "right": {
+        "op": "add",
+        "value": 17
+      },
+      "z": 110.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": 55
+      },
+      "right": {
+        "op": "add",
+        "value": -14
+      },
+      "z": 136.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": 126
+      },
+      "right": {
+        "op": "add",
+        "value": 63
+      },
+      "shift": {
+        "amp": 1.51,
+        "phase": 1.42,
+        "speed": 1.27
+      },
+      "z": 162.0
+    },
+    {
+      "left": {
+        "op": "div",
+        "value": 2
+      },
+      "right": {
+        "op": "add",
+        "value": 107
+      },
+      "z": 188.0
+    },
+    {
+      "left": {
+        "op": "div",
+        "value": 2
+      },
+      "right": {
+        "op": "mul",
+        "value": 2
+      },
+      "z": 214.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": -18
+      },
+      "right": {
+        "op": "add",
+        "value": 38
+      },
+      "z": 240.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": 59
+      },
+      "right": {
+        "op": "add",
+        "value": 122
+      },
+      "z": 266.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": 114
+      },
+      "right": {
+        "op": "add",
+        "value": -78
+      },
+      "z": 292.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": 128
+      },
+      "right": {
+        "op": "add",
+        "value": 38
+      },
+      "z": 318.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": 40
+      },
+      "right": {
+        "op": "add",
+        "value": 43
+      },
+      "shift": {
+        "amp": 1.6,
+        "phase": 4.87,
+        "speed": 1.13
+      },
+      "z": 344.0
+    }
+  ],
+  "id": "level_041",
+  "length": 358.0,
+  "moles": [
+    {
+      "cage": 50,
+      "count": 45,
+      "x": -1.5,
+      "z": 71.0
+    },
+    {
+      "chase": 1.83,
+      "count": 38,
+      "x": -3.0,
+      "z": 97.0
+    },
+    {
+      "count": 230,
+      "guard": true,
+      "x": 2.0,
+      "z": 211.0
+    },
+    {
+      "cage": 544,
+      "count": 482,
+      "x": -2.6,
+      "z": 227.0
+    }
+  ],
+  "mowers": [
+    {
+      "phase": 0.49,
+      "speed": 3.81,
+      "z": 123.0
+    },
+    {
+      "phase": 0.17,
+      "speed": 3.93,
+      "z": 253.0
+    }
+  ],
+  "number": 41,
+  "seed": 41000,
+  "sprinklers": [
+    {
+      "phase": 5.43,
+      "push": 4.34,
+      "speed": 1.6,
+      "z": 27.0
+    },
+    {
+      "phase": 3.34,
+      "push": 4.34,
+      "speed": 1.98,
+      "z": 53.0
+    },
+    {
+      "phase": 5.83,
+      "push": 4.34,
+      "speed": 1.79,
+      "z": 183.0
+    },
+    {
+      "phase": 5.13,
+      "push": 4.34,
+      "speed": 1.66,
+      "z": 235.0
+    }
+  ],
+  "start_count": 10
+}

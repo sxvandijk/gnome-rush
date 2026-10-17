@@ -1,0 +1,196 @@
+{
+  "boss": {
+    "hp": 296.0,
+    "kind": "mole_king",
+    "z": 358.0
+  },
+  "chapter": 1,
+  "gate_pairs": [
+    {
+      "left": {
+        "op": "add",
+        "value": 10
+      },
+      "right": {
+        "op": "add",
+        "value": 14
+      },
+      "z": 32.0
+    },
+    {
+      "left": {
+        "op": "mul",
+        "value": 2
+      },
+      "right": {
+        "op": "div",
+        "value": 2
+      },
+      "z": 58.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": 49
+      },
+      "right": {
+        "op": "add",
+        "value": 6
+      },
+      "z": 84.0
+    },
+    {
+      "left": {
+        "op": "mul",
+        "value": 3
+      },
+      "right": {
+        "op": "mul",
+        "value": 3
+      },
+      "z": 110.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": 12
+      },
+      "right": {
+        "op": "add",
+        "value": -37
+      },
+      "z": 136.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": -15
+      },
+      "right": {
+        "op": "add",
+        "value": 11
+      },
+      "z": 162.0
+    },
+    {
+      "left": {
+        "op": "mul",
+        "value": 2
+      },
+      "right": {
+        "op": "add",
+        "value": 12
+      },
+      "z": 188.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": -13
+      },
+      "right": {
+        "op": "add",
+        "value": 52
+      },
+      "z": 214.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": 35
+      },
+      "right": {
+        "op": "mul",
+        "value": 2
+      },
+      "z": 240.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": -17
+      },
+      "right": {
+        "op": "mul",
+        "value": 2
+      },
+      "z": 266.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": 39
+      },
+      "right": {
+        "op": "mul",
+        "value": 2
+      },
+      "z": 292.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": 42
+      },
+      "right": {
+        "op": "add",
+        "value": 53
+      },
+      "z": 318.0
+    },
+    {
+      "left": {
+        "op": "div",
+        "value": 2
+      },
+      "right": {
+        "op": "add",
+        "value": 7
+      },
+      "z": 344.0
+    }
+  ],
+  "id": "level_013",
+  "length": 358.0,
+  "moles": [
+    {
+      "count": 4,
+      "guard": true,
+      "x": 2.0,
+      "z": 29.0
+    },
+    {
+      "chase": 0.99,
+      "count": 4,
+      "x": 3.0,
+      "z": 45.0
+    },
+    {
+      "chase": 0.99,
+      "count": 25,
+      "x": 3.0,
+      "z": 97.0
+    },
+    {
+      "count": 49,
+      "guard": true,
+      "x": -2.0,
+      "z": 133.0
+    },
+    {
+      "count": 516,
+      "guard": true,
+      "x": 2.0,
+      "z": 263.0
+    },
+    {
+      "count": 832,
+      "guard": true,
+      "x": 2.0,
+      "z": 289.0
+    }
+  ],
+  "number": 13,
+  "seed": 13000,
+  "start_count": 10
+}

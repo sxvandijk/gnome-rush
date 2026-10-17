@@ -16,3 +16,10 @@ func test_all_levels_fair_without_shooting() -> void:
 		var result := LevelValidator.validate(level)
 		gut.p("%s: best %d, needed %.0f" % [file, result.best, result.needed])
 		assert_true(result.fair, "%s: best %d, needed %.0f" % [file, result.best, result.needed])
+
+
+func test_level_files_match_generator() -> void:
+	# Run tools/generate_levels.gd after changing the generator
+	for n in [1, 20, 41, 60]:
+		var expected := JSON.stringify(LevelGenerator.generate(n), "  ") + "\n"
+		assert_eq(FileAccess.get_file_as_string(LevelLoader.path_for(n)), expected, "level %d" % n)

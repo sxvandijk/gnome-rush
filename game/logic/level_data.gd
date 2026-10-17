@@ -4,6 +4,8 @@ extends RefCounted
 ## methods return fresh objects for each run. Defaults are the prototype's.
 
 var id := ""
+var number := 0
+var chapter := 1
 var start_count := 10
 var lane_half_width := 6.0
 var army_x_limit := 4.3
@@ -19,6 +21,8 @@ var _boss_dict: Dictionary = {}
 static func from_dict(data: Dictionary) -> LevelData:
 	var level := LevelData.new()
 	level.id = str(data.get("id", ""))
+	level.number = int(data.get("number", 0))
+	level.chapter = int(data.get("chapter", 1))
 	level.start_count = int(data.get("start_count", level.start_count))
 	level.lane_half_width = float(data.get("lane_half_width", level.lane_half_width))
 	level.army_x_limit = float(data.get("army_x_limit", level.army_x_limit))

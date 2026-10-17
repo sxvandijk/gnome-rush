@@ -66,7 +66,7 @@ func test_create_returns_fresh_objects() -> void:
 
 
 func test_load_test_level_from_disk() -> void:
-	var level := LevelData.load_json("res://levels/test_001.json")
+	var level := LevelData.load_json("res://tests/fixtures/test_001.json")
 	assert_not_null(level)
 	assert_eq(level.id, "test_001")
 	assert_eq(level.create_pairs().size(), 6)

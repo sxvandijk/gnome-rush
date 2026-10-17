@@ -107,19 +107,20 @@ Generator maakt levels uit een seed (= levelnummer); de validator rekent de best
 - [x] Grote legers: ×-poorten alleen onder 2000 kabouters; mollengevecht max. 2 s en baasgevecht max. 6 s (sneller ruilen, nog steeds 1-tegen-1); beste route minstens 50
 
 ### 3. Hoofdstukken (3 × 20 levels)
-- [ ] 1 Voortuin (1–20): poorten, mollen, maaiers, kooien, achtervolgers
-- [ ] 2 Moestuin (21–40): nieuw: sproeiers die het leger zijwaarts duwen
-- [ ] 3 Vijvertuin (41–60): nieuw: poorten met een schuivende scheidslijn
-- [ ] Kleuren/tuin per hoofdstuk (placeholder), bazen per soort (placeholder-uiterlijk)
+- [x] 1 Voortuin (1–20): poorten, mollen, maaiers, kooien, achtervolgers
+- [x] 2 Moestuin (21–40): nieuw: sproeiers die het leger zijwaarts duwen
+- [x] 3 Vijvertuin (41–60): nieuw: poorten met een schuivende scheidslijn
+- [x] Kleuren/tuin per hoofdstuk (placeholder), bazen per soort (placeholder-uiterlijk)
 
 ### 4. 60 levels en laden
-- [ ] Script `tools/generate_levels.gd` schrijft `levels/level_001.json` … `level_060.json`
-- [ ] Laden via de validator: oneerlijk level wordt niet geladen
-- [ ] Simpele levelkeuze (nummer kiezen, na winst volgende level); de echte levelkaart komt in M4
-- [ ] Tests: alle 60 levels eerlijk, reproduceerbaar (zelfde seed = zelfde JSON)
+- [x] Script `tools/generate_levels.gd` schrijft `levels/level_001.json` … `level_060.json`
+- [x] Laden via de validator: oneerlijk level wordt niet geladen
+- [x] Simpele levelkeuze (nummer kiezen, na winst volgende level); de echte levelkaart komt in M4
+- [x] Tests: alle 60 levels eerlijk, reproduceerbaar (zelfde seed = zelfde JSON)
 
 ### 5. Afronding
-- [ ] Nieuwe IPA, samenvatting + testinstructies
+- [x] Ontwikkelopties: `-- --level=N` start direct in level N, `-- --autopilot` laat de validatorpiloot spelen
+- [ ] Nieuwe IPA, samenvatting + testinstructies; Stan test op iPhone
 
 ## Ontwerp: mollen per level (uitwerking in M3)
 

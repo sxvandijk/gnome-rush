@@ -1,0 +1,215 @@
+{
+  "boss": {
+    "hp": 380.0,
+    "kind": "mole_king",
+    "z": 358.0
+  },
+  "chapter": 1,
+  "gate_pairs": [
+    {
+      "left": {
+        "op": "mul",
+        "value": 2
+      },
+      "right": {
+        "op": "mul",
+        "value": 2
+      },
+      "z": 32.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": 26
+      },
+      "right": {
+        "op": "add",
+        "value": 17
+      },
+      "z": 58.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": 31
+      },
+      "right": {
+        "op": "add",
+        "value": 43
+      },
+      "z": 84.0
+    },
+    {
+      "left": {
+        "op": "div",
+        "value": 2
+      },
+      "right": {
+        "op": "add",
+        "value": 40
+      },
+      "z": 110.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": -6
+      },
+      "right": {
+        "op": "mul",
+        "value": 3
+      },
+      "z": 136.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": 10
+      },
+      "right": {
+        "op": "add",
+        "value": 40
+      },
+      "z": 162.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": 8
+      },
+      "right": {
+        "op": "add",
+        "value": 20
+      },
+      "z": 188.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": 13
+      },
+      "right": {
+        "op": "add",
+        "value": 53
+      },
+      "z": 214.0
+    },
+    {
+      "left": {
+        "op": "mul",
+        "value": 2
+      },
+      "right": {
+        "op": "add",
+        "value": -34
+      },
+      "z": 240.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": 23
+      },
+      "right": {
+        "op": "add",
+        "value": 44
+      },
+      "z": 266.0
+    },
+    {
+      "left": {
+        "op": "mul",
+        "value": 2
+      },
+      "right": {
+        "op": "add",
+        "value": 44
+      },
+      "z": 292.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": 29
+      },
+      "right": {
+        "op": "add",
+        "value": 22
+      },
+      "z": 318.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": 56
+      },
+      "right": {
+        "op": "add",
+        "value": 15
+      },
+      "z": 344.0
+    }
+  ],
+  "id": "level_014",
+  "length": 358.0,
+  "moles": [
+    {
+      "cage": 8,
+      "count": 6,
+      "x": -3.0,
+      "z": 45.0
+    },
+    {
+      "count": 7,
+      "guard": true,
+      "x": -2.0,
+      "z": 55.0
+    },
+    {
+      "count": 15,
+      "guard": true,
+      "x": 2.0,
+      "z": 81.0
+    },
+    {
+      "chase": 1.02,
+      "count": 20,
+      "x": -3.0,
+      "z": 123.0
+    },
+    {
+      "count": 181,
+      "guard": true,
+      "x": 2.0,
+      "z": 185.0
+    },
+    {
+      "cage": 319,
+      "count": 228,
+      "x": 2.6,
+      "z": 253.0
+    },
+    {
+      "chase": 1.02,
+      "count": 380,
+      "x": 3.0,
+      "z": 305.0
+    },
+    {
+      "count": 482,
+      "guard": true,
+      "x": -2.0,
+      "z": 341.0
+    }
+  ],
+  "mowers": [
+    {
+      "phase": 1.21,
+      "speed": 2.26,
+      "z": 97.0
+    }
+  ],
+  "number": 14,
+  "seed": 14001,
+  "start_count": 10
+}

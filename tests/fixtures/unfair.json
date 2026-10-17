@@ -1,0 +1,8 @@
+{
+  "id": "unfair",
+  "start_count": 10,
+  "gate_pairs": [
+    { "z": 32.0, "left": { "op": "add", "value": 5 }, "right": { "op": "mul", "value": 2 } }
+  ],
+  "boss": { "z": 46.0, "hp": 17, "kind": "mole_king" }
+}

@@ -3,7 +3,6 @@ extends Node3D
 ## HUD for one level and drives them from a RunState. All rules live in
 ## game/logic; this script only shows them and feeds in the steering.
 
-const LEVEL_PATH := "res://levels/test_001.json"
 ## Lane units the army target moves for a drag across the full screen width.
 const DRAG_UNITS_PER_SCREEN := 13.0
 const CAMERA_X_FOLLOW := 0.35
@@ -11,6 +10,12 @@ const CAMERA_HEIGHT := 8.6
 const CAMERA_BACK := 10.5
 const CAMERA_LOOK_AHEAD := 9.0
 const HEDGE_X := 6.65
+## Per chapter: [lawn, lane, hedge, surroundings]
+const THEMES := [
+	[Color(0.3, 0.6, 0.25), Color(0.45, 0.75, 0.35), Color(0.2, 0.45, 0.2), Color(0.55, 0.8, 1.0)],
+	[Color(0.45, 0.32, 0.2), Color(0.5, 0.7, 0.3), Color(0.35, 0.55, 0.15), Color(0.65, 0.82, 0.95)],
+	[Color(0.2, 0.45, 0.6), Color(0.45, 0.72, 0.5), Color(0.25, 0.5, 0.35), Color(0.6, 0.85, 0.95)],
+]
 
 var _level: LevelData
 var _run: RunState
@@ -19,16 +24,31 @@ var _acorn_view: AcornView
 var _gate_views := {}  # GatePair -> GatePairView
 var _mole_views: Array[MoleGroupView] = []
 var _mower_views: Array[MowerView] = []
+var _sprinkler_views: Array[SprinklerView] = []
 var _boss_view: BossView
 var _camera: Camera3D
 var _hud: Hud
 var _result_shown := false
+## Development: `-- --autopilot` lets the validator's pilot play the level.
+var _autopilot: LevelValidator.Plan = null
 
 
 func _ready() -> void:
-	_level = LevelData.load_json(LEVEL_PATH)
-	assert(_level != null, "Could not load %s" % LEVEL_PATH)
+	_hud = Hud.new()
+	add_child(_hud)
+	_hud.retry_pressed.connect(func() -> void: get_tree().reload_current_scene())
+	_hud.next_pressed.connect(Game.play_next)
+	_hud.levels_pressed.connect(Game.show_levels)
+	_hud.set_level_title("Level %d" % Game.current_level)
+
+	_level = LevelLoader.load_level(Game.current_level)
+	if _level == null:
+		set_process(false)
+		_hud.show_message("Level %d kon niet geladen worden" % Game.current_level)
+		return
 	_run = RunState.new(_level)
+	if "--autopilot" in OS.get_cmdline_user_args():
+		_autopilot = LevelValidator.make_plan(_level)
 	_run.pair_passed.connect(func(pair: GatePair, gate: Gate) -> void: _gate_views[pair].mark_passed(gate))
 	_run.gate_hit.connect(func(pair: GatePair, _gate: Gate) -> void: _gate_views[pair].refresh())
 
@@ -49,6 +69,11 @@ func _ready() -> void:
 		add_child(view)
 		view.setup(mower)
 		_mower_views.append(view)
+	for sprinkler in _run.sprinklers:
+		var view := SprinklerView.new()
+		add_child(view)
+		view.setup(sprinkler, _level.lane_half_width)
+		_sprinkler_views.append(view)
 	if _run.boss:
 		_boss_view = BossView.new()
 		add_child(_boss_view)
@@ -63,15 +88,11 @@ func _ready() -> void:
 	_camera.keep_aspect = Camera3D.KEEP_HEIGHT
 	_camera.fov = 64
 	add_child(_camera)
-
-	_hud = Hud.new()
-	add_child(_hud)
-	_hud.retry_pressed.connect(func() -> void: get_tree().reload_current_scene())
 	_update_views(0.0)
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if _run.is_finished():
+	if _run == null or _run.is_finished():
 		return
 	var dx := 0.0
 	if event is InputEventScreenDrag:
@@ -88,11 +109,13 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _process(delta: float) -> void:
+	if _autopilot:
+		_run.set_target_x(LevelValidator.pilot_target(_run, _autopilot))
 	_run.update(delta)
 	_update_views(delta)
 	if _run.is_finished() and not _result_shown:
 		_result_shown = true
-		_hud.show_result(_run.is_won(), _run.army.count)
+		_hud.show_result(_run.is_won(), _run.army.count, Game.has_next())
 
 
 func _update_views(delta: float) -> void:
@@ -102,12 +125,20 @@ func _update_views(delta: float) -> void:
 		view.update_view(delta, _run.fighting == view.group)
 	for view in _mower_views:
 		view.update_view(_run.time)
+	for view in _sprinkler_views:
+		view.update_view(_run.time)
+	for pair in _gate_views:
+		_gate_views[pair].update_view(_run.time)
 	if _boss_view:
 		_boss_view.update_view(delta, _run.at_boss)
 
 	var cx := _run.army.center_x * CAMERA_X_FOLLOW
 	_camera.position = Vector3(cx, CAMERA_HEIGHT, -_run.distance + CAMERA_BACK)
 	_camera.look_at(Vector3(cx, 0, -_run.distance - CAMERA_LOOK_AHEAD))
+
+
+func _theme() -> Array:
+	return THEMES[clampi(_level.chapter, 1, THEMES.size()) - 1]
 
 
 func _end_z() -> float:
@@ -117,12 +148,12 @@ func _end_z() -> float:
 func _add_environment() -> void:
 	var env := Environment.new()
 	env.background_mode = Environment.BG_COLOR
-	env.background_color = Color(0.55, 0.8, 1.0)
+	env.background_color = _theme()[3]
 	env.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
 	env.ambient_light_color = Color(0.8, 0.85, 0.9)
 	env.ambient_light_energy = 0.6
 	env.fog_enabled = true
-	env.fog_light_color = Color(0.55, 0.8, 1.0)
+	env.fog_light_color = _theme()[3]
 	env.fog_density = 0.004
 	var world_env := WorldEnvironment.new()
 	world_env.environment = env
@@ -140,9 +171,10 @@ func _add_track() -> void:
 	var length := _end_z() + 40.0
 	var mid_z := -length * 0.5 + 20.0
 
-	Visuals.box(self, Vector3(80, 0.1, length + 40), Color(0.3, 0.6, 0.25), Vector3(0, -0.1, mid_z))
-	Visuals.box(self, Vector3(w * 2.0, 0.1, length), Color(0.45, 0.75, 0.35), Vector3(0, -0.05, mid_z))
+	var theme := _theme()
+	Visuals.box(self, Vector3(80, 0.1, length + 40), theme[0], Vector3(0, -0.1, mid_z))
+	Visuals.box(self, Vector3(w * 2.0, 0.1, length), theme[1], Vector3(0, -0.05, mid_z))
 	for side in [-1.0, 1.0]:
-		Visuals.box(self, Vector3(0.6, 0.7, length), Color(0.2, 0.45, 0.2), Vector3(side * HEDGE_X, 0.35, mid_z))
+		Visuals.box(self, Vector3(0.6, 0.7, length), theme[2], Vector3(side * HEDGE_X, 0.35, mid_z))
 	if not _run.boss:
 		Visuals.box(self, Vector3(w * 2.0, 0.12, 1.0), Color(0.95, 0.95, 0.95), Vector3(0, 0.0, -_level.length))

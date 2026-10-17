@@ -1,0 +1,81 @@
+{
+  "boss": {
+    "hp": 307.0,
+    "kind": "mole_king",
+    "z": 176.0
+  },
+  "chapter": 1,
+  "gate_pairs": [
+    {
+      "left": {
+        "op": "mul",
+        "value": 2
+      },
+      "right": {
+        "op": "add",
+        "value": -11
+      },
+      "z": 32.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": -9
+      },
+      "right": {
+        "op": "add",
+        "value": 9
+      },
+      "z": 58.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": 16
+      },
+      "right": {
+        "op": "add",
+        "value": -9
+      },
+      "z": 84.0
+    },
+    {
+      "left": {
+        "op": "mul",
+        "value": 2
+      },
+      "right": {
+        "op": "add",
+        "value": -8
+      },
+      "z": 110.0
+    },
+    {
+      "left": {
+        "op": "mul",
+        "value": 2
+      },
+      "right": {
+        "op": "add",
+        "value": -12
+      },
+      "z": 136.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": 12
+      },
+      "right": {
+        "op": "mul",
+        "value": 3
+      },
+      "z": 162.0
+    }
+  ],
+  "id": "level_001",
+  "length": 176.0,
+  "number": 1,
+  "seed": 1000,
+  "start_count": 10
+}

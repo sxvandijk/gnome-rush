@@ -1,0 +1,218 @@
+{
+  "boss": {
+    "hp": 1164.0,
+    "kind": "sprinkler_robot",
+    "z": 358.0
+  },
+  "chapter": 3,
+  "gate_pairs": [
+    {
+      "left": {
+        "op": "add",
+        "value": -102
+      },
+      "right": {
+        "op": "add",
+        "value": 119
+      },
+      "z": 32.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": 128
+      },
+      "right": {
+        "op": "add",
+        "value": 174
+      },
+      "shift": {
+        "amp": 1.64,
+        "phase": 5.31,
+        "speed": 1.52
+      },
+      "z": 58.0
+    },
+    {
+      "left": {
+        "op": "mul",
+        "value": 2
+      },
+      "right": {
+        "op": "add",
+        "value": -56
+      },
+      "z": 84.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": 76
+      },
+      "right": {
+        "op": "add",
+        "value": -75
+      },
+      "z": 110.0
+    },
+    {
+      "left": {
+        "op": "mul",
+        "value": 2
+      },
+      "right": {
+        "op": "add",
+        "value": 24
+      },
+      "z": 136.0
+    },
+    {
+      "left": {
+        "op": "mul",
+        "value": 2
+      },
+      "right": {
+        "op": "add",
+        "value": 124
+      },
+      "z": 162.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": -9
+      },
+      "right": {
+        "op": "add",
+        "value": 54
+      },
+      "z": 188.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": -74
+      },
+      "right": {
+        "op": "add",
+        "value": 126
+      },
+      "z": 214.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": 137
+      },
+      "right": {
+        "op": "mul",
+        "value": 2
+      },
+      "z": 240.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": 139
+      },
+      "right": {
+        "op": "add",
+        "value": 101
+      },
+      "shift": {
+        "amp": 1.45,
+        "phase": 5.0,
+        "speed": 1.39
+      },
+      "z": 266.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": 41
+      },
+      "right": {
+        "op": "add",
+        "value": 26
+      },
+      "z": 292.0
+    },
+    {
+      "left": {
+        "op": "div",
+        "value": 2
+      },
+      "right": {
+        "op": "add",
+        "value": 66
+      },
+      "shift": {
+        "amp": 1.65,
+        "phase": 0.99,
+        "speed": 1.03
+      },
+      "z": 318.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": 99
+      },
+      "right": {
+        "op": "add",
+        "value": 32
+      },
+      "shift": {
+        "amp": 1.14,
+        "phase": 4.12,
+        "speed": 1.53
+      },
+      "z": 344.0
+    }
+  ],
+  "id": "level_055",
+  "length": 358.0,
+  "moles": [
+    {
+      "chase": 2.0,
+      "count": 34,
+      "x": -3.0,
+      "z": 45.0
+    },
+    {
+      "chase": 2.0,
+      "count": 53,
+      "x": 3.0,
+      "z": 71.0
+    },
+    {
+      "chase": 2.0,
+      "count": 92,
+      "x": 3.0,
+      "z": 97.0
+    },
+    {
+      "count": 403,
+      "guard": true,
+      "x": -2.0,
+      "z": 159.0
+    },
+    {
+      "chase": 2.0,
+      "count": 483,
+      "x": 3.0,
+      "z": 227.0
+    }
+  ],
+  "number": 55,
+  "seed": 55001,
+  "sprinklers": [
+    {
+      "phase": 0.52,
+      "push": 4.9,
+      "speed": 1.91,
+      "z": 53.0
+    }
+  ],
+  "start_count": 10
+}
