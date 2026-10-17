@@ -95,9 +95,9 @@ Waarden uit `docs/prototype-waarden.md`. Alle regels in `game/logic/`, met een v
 Generator maakt levels uit een seed (= levelnummer); de validator rekent de beste route uit zonder schieten en weigert oneerlijke levels. Levels worden als JSON in `levels/` opgeslagen en bij het laden opnieuw gecontroleerd.
 
 ### 1. Validator `game/logic/level_validator.gd`
-- [ ] Planner: per poort, mollengroep en kooi de beste keuze (alle bewerkingen zijn monotoon, dus per stap het grootste leger kiezen is optimaal); bewaakte poort alleen via vechten
-- [ ] Piloot: speelt het plan na in `RunState` zonder schieten, ontwijkt maaiers en achtervolgers; aantal bij de baas = `best` (ondergrens van het echte optimum, dus aan de veilige kant)
-- [ ] `validate(level)`: eerlijk als `levens × 1,2 ≤ best`; `test_levels.gd` gebruikt de validator
+- [x] Planner: per poort, mollengroep en kooi de beste keuze (alle bewerkingen zijn monotoon, dus per stap het grootste leger kiezen is optimaal); bewaakte poort alleen via vechten
+- [x] Piloot: speelt het plan na in `RunState` zonder schieten, ontwijkt maaiers en achtervolgers; aantal bij de baas = `best` (ondergrens van het echte optimum, dus aan de veilige kant)
+- [x] `validate(level)`: eerlijk als `levens × 1,2 ≤ best`; `test_levels.gd` gebruikt de validator
 
 ### 2. Generator `game/logic/level_generator.gd`
 - [ ] Rijen elke 26 vanaf z = 32, aantal `5 + min(level, 8)`; poortkansen volgens het prototype
