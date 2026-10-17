@@ -100,9 +100,11 @@ Generator maakt levels uit een seed (= levelnummer); de validator rekent de best
 - [x] `validate(level)`: eerlijk als `levens × 1,2 ≤ best`; `test_levels.gd` gebruikt de validator
 
 ### 2. Generator `game/logic/level_generator.gd`
-- [ ] Rijen elke 26 vanaf z = 32, aantal `5 + min(level, 8)`; poortkansen volgens het prototype
-- [ ] Obstakels tussen rijen en bewaakte poorten volgens "Ontwerp: mollen per level"
-- [ ] Baas volgens "Ontwerp: eerlijke bazen" met `best` uit de validator; bij een onbruikbaar level volgende sub-seed (deterministisch)
+- [x] Rijen elke 26 vanaf z = 32, aantal `5 + min(level, 8)`; poortkansen volgens het prototype
+- [x] Obstakels tussen rijen en bewaakte poorten volgens "Ontwerp: mollen per level"
+- [x] Baas volgens "Ontwerp: eerlijke bazen" met `best` uit de validator; bij een onbruikbaar level volgende sub-seed (deterministisch)
+
+- [x] Grote legers: ×-poorten alleen onder 2000 kabouters; mollengevecht max. 2 s en baasgevecht max. 6 s (sneller ruilen, nog steeds 1-tegen-1); beste route minstens 50
 
 ### 3. Hoofdstukken (3 × 20 levels)
 - [ ] 1 Voortuin (1–20): poorten, mollen, maaiers, kooien, achtervolgers
@@ -128,7 +130,7 @@ Makkelijk beginnen, later lastiger. Losse mollen die alleen in de weg staan kome
 | Bewaakte poort | 2 | groep 25–55% van het beste leger (prototype); bewaakt altijd de betere poort |
 | Grasmaaiers | 3 | prototype: `v = 1,3–2,1 + 0,05×level` |
 | Kooi | 4 | kooi = mollen × `max(1,1; 1,5 − 0,01×(level − 4))`: eerst ruim (1,5×), later krap (1,1×) |
-| Achtervolgers | 8 | `chase = min(3,0; 0,8 + 0,05×level)` eenheden/s |
+| Achtervolgers | 8 | `chase = min(2,0; 0,6 + 0,03×level)` eenheden/s, groep 10–30% van het leger (sneller/groter was met een breed leger niet te ontwijken) |
 | Munten per mol | M4 | 1 munt per verslagen mol |
 
 ## Ontwerp: eerlijke bazen (uitwerking in M3)

@@ -20,6 +20,9 @@ const MOLE_INTERVAL := 0.035
 ## The army keeps running at this fraction of its speed while it fights a
 ## mole group, pushing the moles ahead instead of stopping dead.
 const MOLE_FIGHT_SPEED := 0.5
+## Big fights trade faster (still one for one) so they never drag on.
+const MOLE_FIGHT_MAX_TIME := 2.0
+const BOSS_FIGHT_MAX_TIME := 6.0
 ## Chasing moles start closing in when the army is this close.
 const CHASE_RANGE := 20.0
 const MOWER_INTERVAL := 0.045
@@ -45,6 +48,7 @@ var _accum := 0.0
 var _fire_accum := 0.0
 var _next_pair := 0
 var _fight_accum := 0.0
+var _fight_rate := 0.0
 var _boss_accum := 0.0
 var _mower_accums: Array[float] = []
 
@@ -144,14 +148,15 @@ func _check_moles() -> void:
 		elif absf(army.center_x - group.x) < reach:
 			fighting = group
 			_fight_accum = 0.0
+			_fight_rate = maxf(1.0 / MOLE_INTERVAL, group.count / MOLE_FIGHT_MAX_TIME)
 			fight_started.emit(group)
 			return
 
 
 func _fight_moles(dt: float) -> void:
-	_fight_accum += dt
-	while _fight_accum >= MOLE_INTERVAL - EPSILON and fighting.count > 0 and not army.is_defeated():
-		_fight_accum -= MOLE_INTERVAL
+	_fight_accum += dt * _fight_rate
+	while _fight_accum >= 1.0 - EPSILON and fighting.count > 0 and not army.is_defeated():
+		_fight_accum -= 1.0
 		fighting.count -= 1
 		moles_defeated += 1
 		army.remove(1)
@@ -187,12 +192,10 @@ func _chase(dt: float) -> void:
 
 
 func _fight_boss(dt: float) -> void:
-	_boss_accum += dt
-	while not boss.is_defeated() and not army.is_defeated():
-		var interval := boss_interval(army.count)
-		if _boss_accum < interval - EPSILON:
-			break
-		_boss_accum -= interval
+	var rate := maxf(1.0 / boss_interval(army.count), boss.max_hp / BOSS_FIGHT_MAX_TIME)
+	_boss_accum += dt * rate
+	while _boss_accum >= 1.0 - EPSILON and not boss.is_defeated() and not army.is_defeated():
+		_boss_accum -= 1.0
 		boss.damage(1.0)
 		army.remove(1)
 

@@ -1,0 +1,179 @@
+class_name LevelGenerator
+extends RefCounted
+## Builds level n from seed n (values from docs/prototype-waarden.md and the
+## design tables in PLAN.md). The boss gets its hit points from the
+## validator's best route, so every generated level passes the 20% rule; if
+## a layout cannot (army wiped out, too small), the next sub-seed is tried.
+## Same number, same level, on every device.
+
+const START_COUNT := 10
+const FIRST_ROW_Z := 32.0
+const ROW_SPACING := 26.0
+const BOSS_GAP := 14.0
+const GUARD_OFFSET := 3.0
+const GUARD_X := 2.0
+const MAX_ATTEMPTS := 20
+const MUL_LIMIT := 2000
+## A layout whose best route ends below this is too weak: next sub-seed.
+const MIN_BEST := 50
+const LEVELS_PER_CHAPTER := 20
+
+const MINI_BOSSES := ["cat", "magpie", "sprinkler_robot"]
+const END_BOSSES := ["mole_king_xl", "flamingo_queen", "koi_emperor"]
+
+# Chances per row, and the level each variant first appears at
+const GUARD_CHANCE := 0.22
+const GUARD_FROM := 2
+const MOWER_CHANCE := 0.12
+const MOWER_FROM := 3
+const CAGE_CHANCE := 0.15
+const CAGE_FROM := 4
+const CHASE_CHANCE := 0.12
+const CHASE_FROM := 8
+const PLAIN_MOLE_CHANCE := 0.05
+
+
+static func generate(n: int) -> Dictionary:
+	var data := {}
+	for attempt in MAX_ATTEMPTS:
+		data = _layout(n, attempt)
+		var level := LevelData.from_dict(data)
+		var best := LevelValidator.best_route(level)
+		var hp := floorf(maxf(best * boss_factor(n), boss_min_hp(n)))
+		if best >= MIN_BEST and hp * LevelValidator.MARGIN <= best:
+			data.boss.hp = hp
+			return data
+	push_error("Level %d: no fair layout in %d attempts" % [n, MAX_ATTEMPTS])
+	return data
+
+
+static func chapter(n: int) -> int:
+	return (n - 1) / LEVELS_PER_CHAPTER + 1
+
+
+static func boss_kind(n: int) -> String:
+	if n % LEVELS_PER_CHAPTER == 0:
+		return END_BOSSES[(chapter(n) - 1) % END_BOSSES.size()]
+	if n % 5 == 0:
+		return MINI_BOSSES[(n / 5 - 1 - n / LEVELS_PER_CHAPTER) % MINI_BOSSES.size()]
+	return "mole_king"
+
+
+## Share of the best route the boss gets as hit points (always <= 1/1.2).
+static func boss_factor(n: int) -> float:
+	if n % LEVELS_PER_CHAPTER == 0:
+		return 0.80
+	if n % 5 == 0:
+		return minf(0.80, 0.62 + 0.015 * n)
+	return minf(0.80, 0.55 + 0.02 * n)
+
+
+static func boss_min_hp(n: int) -> float:
+	return 8.0 if n % 5 == 0 else 5.0
+
+
+static func cage_ratio(n: int) -> float:
+	return maxf(1.1, 1.5 - 0.01 * (n - CAGE_FROM))
+
+
+static func chase_speed(n: int) -> float:
+	return minf(2.0, 0.6 + 0.03 * n)
+
+
+static func _layout(n: int, attempt: int) -> Dictionary:
+	var rng := RandomNumberGenerator.new()
+	rng.seed = n * 1000 + attempt
+	var rows := 5 + mini(n, 8)
+	var pairs := []
+	var moles := []
+	var mowers := []
+	# Rough, cautious estimate of the army so far, to size the moles like the
+	# prototype: best gates, chasers assumed to catch the army
+	var best := START_COUNT
+
+	for r in rows:
+		var z := FIRST_ROW_Z + r * ROW_SPACING
+		var good := _good_gate(rng, n, best)
+		var other := _bad_gate(rng, n) if rng.randf() < 0.55 else _good_gate(rng, n, best)
+		var good_left := rng.randf() < 0.5
+		var pair := {"z": z, "left": good if good_left else other, "right": other if good_left else good}
+		pairs.append(pair)
+
+		if n >= GUARD_FROM and rng.randf() < GUARD_CHANCE:
+			var left := Gate.from_dict(pair.left).apply(best)
+			var right := Gate.from_dict(pair.right).apply(best)
+			moles.append({
+				"z": z - GUARD_OFFSET,
+				"x": -GUARD_X if left > right else GUARD_X,
+				"count": _mole_count(rng, best),
+				"guard": true,
+			})
+		best = maxi(Gate.from_dict(pair.left).apply(best), Gate.from_dict(pair.right).apply(best))
+
+		if r < rows - 1:
+			best = _mid_obstacle(rng, n, z + ROW_SPACING * 0.5, best, moles, mowers)
+
+	var boss_z: float = pairs[-1].z + BOSS_GAP
+	var data := {
+		"id": "level_%03d" % n,
+		"number": n,
+		"chapter": chapter(n),
+		"seed": n * 1000 + attempt,
+		"start_count": START_COUNT,
+		"length": boss_z,
+		"gate_pairs": pairs,
+		# Placeholder hp so the validator run reaches the boss; set in generate()
+		"boss": {"z": boss_z, "hp": 1e9, "kind": boss_kind(n)},
+	}
+	if not moles.is_empty():
+		data.moles = moles
+	if not mowers.is_empty():
+		data.mowers = mowers
+	return data
+
+
+## At most one obstacle halfway between two rows. Returns the updated
+## army estimate.
+static func _mid_obstacle(rng: RandomNumberGenerator, n: int, z: float, best: int, moles: Array, mowers: Array) -> int:
+	var side := -1.0 if rng.randf() < 0.5 else 1.0
+	if n >= CHASE_FROM and rng.randf() < CHASE_CHANCE:
+		var count := maxi(2, roundi(best * rng.randf_range(0.10, 0.30)))
+		moles.append({"z": z, "x": side * 3.0, "count": count, "chase": snappedf(chase_speed(n), 0.01)})
+		return best - count
+	elif n >= CAGE_FROM and rng.randf() < CAGE_CHANCE:
+		var count := maxi(2, roundi(best * rng.randf_range(0.25, 0.5)))
+		var cage := floori(count * cage_ratio(n))
+		moles.append({
+			"z": z,
+			"x": snappedf(side * rng.randf_range(1.5, 3.0), 0.1),
+			"count": count,
+			"cage": cage,
+		})
+		return best + cage - count
+	elif n >= MOWER_FROM and rng.randf() < MOWER_CHANCE:
+		mowers.append({
+			"z": z,
+			"speed": snappedf(rng.randf_range(1.3, 2.1) + 0.05 * n, 0.01),
+			"phase": snappedf(rng.randf_range(0.0, TAU), 0.01),
+		})
+	elif n >= GUARD_FROM and rng.randf() < PLAIN_MOLE_CHANCE:
+		moles.append({"z": z, "x": snappedf(rng.randf_range(-2.0, 2.0), 0.1), "count": _mole_count(rng, best)})
+	return best
+
+
+static func _mole_count(rng: RandomNumberGenerator, best: int) -> int:
+	return maxi(2, roundi(best * rng.randf_range(0.25, 0.55)))
+
+
+static func _good_gate(rng: RandomNumberGenerator, n: int, best: int) -> Dictionary:
+	# No more multiplying once the army is big: keeps numbers and fights sane
+	if rng.randf() < 0.28 and best < MUL_LIMIT:
+		var triple := rng.randf() >= 0.75 and best < 250
+		return {"op": "mul", "value": 3 if triple else 2}
+	return {"op": "add", "value": rng.randi_range(5, 14 + 3 * n)}
+
+
+static func _bad_gate(rng: RandomNumberGenerator, n: int) -> Dictionary:
+	if rng.randf() < 0.30:
+		return {"op": "div", "value": 2}
+	return {"op": "add", "value": -rng.randi_range(5, 12 + 2 * n)}

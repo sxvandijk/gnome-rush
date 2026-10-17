@@ -210,6 +210,14 @@ func test_mole_fight_speed() -> void:
 	assert_almost_eq(float(before - run.army.count), 10.0, 1.0)
 
 
+func test_big_mole_fight_stays_short() -> void:
+	var run := _run({"moles": [{"z": 20.0, "x": 0.0, "count": 1000}], "start_count": 2000})
+	_run_to_fight(run)
+	run.update(RunState.MOLE_FIGHT_MAX_TIME + 0.1)
+	assert_null(run.fighting)
+	assert_eq(run.army.count, 1000)  # Still one for one
+
+
 func test_moles_can_beat_army() -> void:
 	var run := _run({"moles": [{"z": 20.0, "x": 0.0, "count": 30}]})
 	_run_to(run, 30.0)
@@ -350,6 +358,15 @@ func test_army_stops_before_boss() -> void:
 	run.update(5.0)
 	assert_lt(run.distance, 30.0)
 	assert_true(run.at_boss)
+
+
+func test_big_boss_fight_stays_short() -> void:
+	var run := _run({"boss": {"z": 30.0, "hp": 5000}, "start_count": 6000})
+	while not run.at_boss:
+		run.update(STEP)
+	run.update(RunState.BOSS_FIGHT_MAX_TIME + 0.1)
+	assert_true(run.is_won())
+	assert_eq(run.army.count, 1000)  # Still one for one
 
 
 func test_boss_interval_speeds_up_with_big_army() -> void:
