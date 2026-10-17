@@ -50,7 +50,7 @@ Volgorde: eerst een minimaal project + iOS-workflow (zo snel mogelijk een IPA op
 - [x] Alle GUT-tests groen lokaal en in CI; IPA speelbaar
 - [x] Samenvatting (NL) + testinstructies voor pc-editor en iPhone
 
-## M2 Gevecht
+## M2 Gevecht ✅ (afgerond 2026-10-17)
 
 Waarden uit `docs/prototype-waarden.md`. Alle regels in `game/logic/`, met een vaste stap van 1/60 s, zodat elk level reproduceerbaar is en de validator (M3) dezelfde simulatie gebruikt.
 
@@ -82,13 +82,42 @@ Waarden uit `docs/prototype-waarden.md`. Alle regels in `game/logic/`, met een v
 
 ### 6. Testlevel en afronding
 - [x] `levels/test_001.json` met poorten, mollen, maaiers en molkoning; `tests/unit/test_levels.gd` speelt elk level met een piloot zonder schieten (320 kabouters bij de baas, nodig 232)
-- [ ] Alle tests groen, nieuwe IPA, samenvatting + testinstructies; Stan test op iPhone
+- [x] Alle tests groen, nieuwe IPA, samenvatting + testinstructies; Stan test op iPhone (voelt prima)
 
 ### 7. Mollen-varianten (feedback Stan: mollen voegden niets toe)
 - [x] Bewaakte poort: groep max. 3 eenheden voor de betere poort; ontwijken = slechtere poort (alleen levelontwerp)
 - [x] Kooi (`cage`): gevangen kabouters komen vrij als de mollen verslagen zijn én het leger over de kooi loopt; voorbijlopen = kwijt
 - [x] Achtervolgers (`chase`): schuiven binnen 20 eenheden zijwaarts naar het leger (roodbruin)
 - [x] `moles_defeated` geteld voor munten per mol (M4)
+
+## M3 Levels
+
+Generator maakt levels uit een seed (= levelnummer); de validator rekent de beste route uit zonder schieten en weigert oneerlijke levels. Levels worden als JSON in `levels/` opgeslagen en bij het laden opnieuw gecontroleerd.
+
+### 1. Validator `game/logic/level_validator.gd`
+- [ ] Planner: per poort, mollengroep en kooi de beste keuze (alle bewerkingen zijn monotoon, dus per stap het grootste leger kiezen is optimaal); bewaakte poort alleen via vechten
+- [ ] Piloot: speelt het plan na in `RunState` zonder schieten, ontwijkt maaiers en achtervolgers; aantal bij de baas = `best` (ondergrens van het echte optimum, dus aan de veilige kant)
+- [ ] `validate(level)`: eerlijk als `levens × 1,2 ≤ best`; `test_levels.gd` gebruikt de validator
+
+### 2. Generator `game/logic/level_generator.gd`
+- [ ] Rijen elke 26 vanaf z = 32, aantal `5 + min(level, 8)`; poortkansen volgens het prototype
+- [ ] Obstakels tussen rijen en bewaakte poorten volgens "Ontwerp: mollen per level"
+- [ ] Baas volgens "Ontwerp: eerlijke bazen" met `best` uit de validator; bij een onbruikbaar level volgende sub-seed (deterministisch)
+
+### 3. Hoofdstukken (3 × 20 levels)
+- [ ] 1 Voortuin (1–20): poorten, mollen, maaiers, kooien, achtervolgers
+- [ ] 2 Moestuin (21–40): nieuw: sproeiers die het leger zijwaarts duwen
+- [ ] 3 Vijvertuin (41–60): nieuw: poorten met een schuivende scheidslijn
+- [ ] Kleuren/tuin per hoofdstuk (placeholder), bazen per soort (placeholder-uiterlijk)
+
+### 4. 60 levels en laden
+- [ ] Script `tools/generate_levels.gd` schrijft `levels/level_001.json` … `level_060.json`
+- [ ] Laden via de validator: oneerlijk level wordt niet geladen
+- [ ] Simpele levelkeuze (nummer kiezen, na winst volgende level); de echte levelkaart komt in M4
+- [ ] Tests: alle 60 levels eerlijk, reproduceerbaar (zelfde seed = zelfde JSON)
+
+### 5. Afronding
+- [ ] Nieuwe IPA, samenvatting + testinstructies
 
 ## Ontwerp: mollen per level (uitwerking in M3)
 
@@ -109,7 +138,7 @@ Regel: de beste route zonder schieten en zonder hulp (`best`) moet de baas halen
 | Baas | Wanneer | Levens | Marge bij `best` |
 |---|---|---|---|
 | Molkoning (gewoon) | elk level | `best × min(0,80; 0,55 + 0,02×level)`, min. 5 | ≥ 25% |
-| Tussenbaas (kat, ekster, sproeierrobot) | level 5, 10, 15 | `best × min(0,80; 0,62 + 0,015×level)`, min. 8 | ≥ 25% |
+| Tussenbaas (kat, ekster, sproeierrobot) | elk 5e level, behalve 20/40/60 | `best × min(0,80; 0,62 + 0,015×level)`, min. 8 | ≥ 25% |
 | Eindbaas (molkoning XL, flamingokoningin) | level 20, 40, 60 | `best × 0,80` | 25% |
 
 - De afronding is altijd naar beneden. De validator controleert daarna nog eens hard `levens × 1,2 ≤ best` en weigert het level als dat niet klopt.
