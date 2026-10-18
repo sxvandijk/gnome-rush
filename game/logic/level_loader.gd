@@ -30,4 +30,15 @@ static func load_path(path: String) -> LevelData:
 	if not result.fair:
 		push_warning("Refusing level %s: best route %d, needs %.0f" % [path, result.best, result.needed])
 		return null
+	level.best = result.best
+	return level
+
+
+## Same check for a level built in memory (daily challenge).
+static func load_dict(data: Dictionary) -> LevelData:
+	var level := LevelData.from_dict(data)
+	var result := LevelValidator.validate(level)
+	if not result.fair:
+		return null
+	level.best = result.best
 	return level

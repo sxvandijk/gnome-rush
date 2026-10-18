@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Gnome Rush"
-run/main_scene="res://game/scenes/level_select.tscn"
+run/main_scene="res://game/scenes/level_map.tscn"
 config/features=PackedStringArray("4.7", "Mobile")
 config/icon="res://icon.png"
 

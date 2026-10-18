@@ -41,6 +41,7 @@ var distance := 0.0
 var time := 0.0
 var target_x := 0.0
 var fire_rate := 5.0
+var acorn_boss_damage := ACORN_BOSS_DAMAGE
 var acorns := PackedVector2Array()
 var shots_fired := 0
 var moles_defeated := 0
@@ -272,6 +273,6 @@ func _acorn_hits(x: float, from: float, to: float) -> bool:
 					fighting = null
 			return true
 	if boss and not boss.is_defeated() and to >= boss.z - Boss.RADIUS:
-		boss.damage(ACORN_BOSS_DAMAGE)
+		boss.damage(acorn_boss_damage)
 		return true
 	return false

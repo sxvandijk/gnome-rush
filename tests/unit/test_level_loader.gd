@@ -11,6 +11,7 @@ func test_loads_a_fair_level() -> void:
 	var level := LevelLoader.load_path("res://tests/fixtures/test_001.json")
 	assert_not_null(level)
 	assert_eq(level.id, "test_001")
+	assert_gt(level.best, 0)
 
 
 func test_refuses_an_unfair_level() -> void:

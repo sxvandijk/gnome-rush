@@ -404,6 +404,15 @@ func test_acorns_damage_boss() -> void:
 	assert_lt(run.boss.hp, 100.0)
 
 
+func test_acorn_damage_upgrade() -> void:
+	var plain := _run({"boss": {"z": 60.0, "hp": 100}}, true)
+	var upgraded := _run({"boss": {"z": 60.0, "hp": 100}}, true)
+	upgraded.acorn_boss_damage = 0.5
+	plain.update(2.5)
+	upgraded.update(2.5)
+	assert_almost_eq(100.0 - upgraded.boss.hp, 2.0 * (100.0 - plain.boss.hp), 0.001)
+
+
 func test_no_boss_wins_at_length() -> void:
 	var run := _run({"length": 18.0})
 	run.update(3.0)

@@ -11,6 +11,8 @@ var lane_half_width := 6.0
 var army_x_limit := 4.3
 var length := 100.0
 var speed := 9.0
+## Best route without shooting, filled in by LevelLoader (for the stars).
+var best := 0
 var _pair_dicts: Array = []
 var _mole_dicts: Array = []
 var _mower_dicts: Array = []

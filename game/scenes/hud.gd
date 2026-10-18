@@ -1,25 +1,35 @@
 class_name Hud
 extends CanvasLayer
-## Level title, a back button and the end-of-run panel.
+## Run title, a back button, a live counter (endless rows) and the
+## end-of-run panel with stars and coins.
 
 signal retry_pressed
 signal next_pressed
-signal levels_pressed
+signal map_pressed
 
 var _panel: PanelContainer
 var _title: Label
+var _stars: Label
 var _detail: Label
+var _coins: Label
 var _primary: Button
-var _won := false
+var _counter: Label
+var _next := false
 
 
 func _ready() -> void:
 	var back := Button.new()
-	back.text = "‹ Levels"
+	back.text = "‹ Kaart"
 	back.add_theme_font_size_override("font_size", 48)
 	back.position = Vector2(40, 60)
-	back.pressed.connect(levels_pressed.emit)
+	back.pressed.connect(map_pressed.emit)
 	add_child(back)
+
+	_counter = _label(56)
+	_counter.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
+	_counter.offset_top = 150
+	_counter.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_counter)
 
 	var center := CenterContainer.new()
 	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -28,7 +38,7 @@ func _ready() -> void:
 
 	_panel = PanelContainer.new()
 	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.1, 0.15, 0.1, 0.85)
+	style.bg_color = Color(0.1, 0.15, 0.1, 0.88)
 	style.set_corner_radius_all(40)
 	style.set_content_margin_all(60)
 	_panel.add_theme_stylebox_override("panel", style)
@@ -36,27 +46,31 @@ func _ready() -> void:
 	center.add_child(_panel)
 
 	var box := VBoxContainer.new()
-	box.add_theme_constant_override("separation", 40)
+	box.add_theme_constant_override("separation", 34)
 	_panel.add_child(box)
 
 	_title = _label(110)
-	_detail = _label(64)
-	box.add_child(_title)
-	box.add_child(_detail)
+	_stars = _label(120)
+	_stars.add_theme_color_override("font_color", Color(1.0, 0.82, 0.2))
+	_detail = _label(60)
+	_coins = _label(60)
+	_coins.add_theme_color_override("font_color", Color(1.0, 0.85, 0.35))
+	for label in [_title, _stars, _detail, _coins]:
+		box.add_child(label)
 
 	_primary = _button("Opnieuw")
 	_primary.pressed.connect(func() -> void:
-		if _won:
+		if _next:
 			next_pressed.emit()
 		else:
 			retry_pressed.emit())
 	box.add_child(_primary)
-	var levels := _button("Levels")
-	levels.pressed.connect(levels_pressed.emit)
-	box.add_child(levels)
+	var map := _button("Kaart")
+	map.pressed.connect(map_pressed.emit)
+	box.add_child(map)
 
 
-func set_level_title(text: String) -> void:
+func set_title(text: String) -> void:
 	var title := _label(56)
 	title.text = text
 	title.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
@@ -65,17 +79,37 @@ func set_level_title(text: String) -> void:
 	add_child(title)
 
 
-func show_result(won: bool, count: int, has_next: bool) -> void:
-	_won = won and has_next
-	_title.text = "Gehaald!" if won else "Verloren"
-	_detail.text = ("%d kabouters over" % count) if won else "Al je kabouters zijn op"
-	_primary.text = "Volgende level" if _won else "Opnieuw"
+func set_counter(text: String) -> void:
+	_counter.text = text
+
+
+## result from Game.finish_run(); remaining = gnomes left over.
+func show_result(result: Dictionary, remaining: int, endless: bool, has_next: bool) -> void:
+	_next = result.won and has_next
+	if endless:
+		_title.text = "Nieuw record!" if result.record else "Klaar!"
+		_stars.text = ""
+		_detail.text = "%d rijen gehaald" % result.rows
+	elif result.won:
+		_title.text = "Gehaald!"
+		_stars.text = "★".repeat(result.stars) + "☆".repeat(3 - result.stars)
+		_detail.text = "%d kabouters over" % remaining
+	else:
+		_title.text = "Verloren"
+		_stars.text = ""
+		_detail.text = "Al je kabouters zijn op"
+	_coins.text = "+%d munten" % result.coins if result.coins > 0 else ""
+	_stars.visible = _stars.text != ""
+	_coins.visible = _coins.text != ""
+	_primary.text = "Volgende level" if _next else "Opnieuw"
 	_panel.visible = true
 
 
 func show_message(text: String) -> void:
 	_title.text = "Oeps"
 	_detail.text = text
+	_stars.visible = false
+	_coins.visible = false
 	_primary.visible = false
 	_panel.visible = true
 

@@ -1,7 +1,8 @@
 extends Node3D
 ## Runner scene: builds the lawn, gates, obstacles, boss, army, camera and
-## HUD for one level and drives them from a RunState. All rules live in
-## game/logic; this script only shows them and feeds in the steering.
+## HUD for one run (level, daily challenge or endless) and drives them from a
+## RunState. All rules live in game/logic; this script shows them, feeds in
+## the steering and applies the player's upgrades and skin.
 
 ## Lane units the army target moves for a drag across the full screen width.
 const DRAG_UNITS_PER_SCREEN := 13.0
@@ -38,15 +39,19 @@ func _ready() -> void:
 	add_child(_hud)
 	_hud.retry_pressed.connect(func() -> void: get_tree().reload_current_scene())
 	_hud.next_pressed.connect(Game.play_next)
-	_hud.levels_pressed.connect(Game.show_levels)
-	_hud.set_level_title("Level %d" % Game.current_level)
+	_hud.map_pressed.connect(Game.show_map)
+	_hud.set_title(Game.run_title())
 
-	_level = LevelLoader.load_level(Game.current_level)
+	_level = Game.level_for_run()
 	if _level == null:
 		set_process(false)
-		_hud.show_message("Level %d kon niet geladen worden" % Game.current_level)
+		_hud.show_message("%s kon niet geladen worden" % Game.run_title())
 		return
 	_run = RunState.new(_level)
+	var progress := Game.progress
+	_run.fire_rate = progress.fire_rate()
+	_run.acorn_boss_damage = progress.boss_damage()
+	_run.army.add(progress.start_bonus())
 	if "--autopilot" in OS.get_cmdline_user_args():
 		_autopilot = LevelValidator.make_plan(_level)
 	_run.pair_passed.connect(func(pair: GatePair, gate: Gate) -> void: _gate_views[pair].mark_passed(gate))
@@ -80,6 +85,7 @@ func _ready() -> void:
 		_boss_view.setup(_run.boss)
 
 	_army_view = ArmyView.new()
+	_army_view.skin = Skins.get_skin(progress.skin)
 	add_child(_army_view)
 	_acorn_view = AcornView.new()
 	add_child(_acorn_view)
@@ -113,9 +119,12 @@ func _process(delta: float) -> void:
 		_run.set_target_x(LevelValidator.pilot_target(_run, _autopilot))
 	_run.update(delta)
 	_update_views(delta)
+	if Game.mode == Game.Mode.ENDLESS:
+		_hud.set_counter("Rij %d" % _run.rows_passed())
 	if _run.is_finished() and not _result_shown:
 		_result_shown = true
-		_hud.show_result(_run.is_won(), _run.army.count, Game.has_next())
+		var result := Game.finish_run(_run)
+		_hud.show_result(result, _run.army.count, Game.mode == Game.Mode.ENDLESS, Game.has_next())
 
 
 func _update_views(delta: float) -> void:

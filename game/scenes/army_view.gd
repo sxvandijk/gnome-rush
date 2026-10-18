@@ -9,6 +9,7 @@ const HOP_SPEED := 12.0
 const BODY_HEIGHT := 0.5
 const HAT_HEIGHT := 0.4
 
+var skin: Dictionary = Skins.get_skin("classic")
 var _bodies: MultiMeshInstance3D
 var _hats: MultiMeshInstance3D
 var _label: Label3D
@@ -18,8 +19,8 @@ var _time := 0.0
 
 
 func _ready() -> void:
-	_bodies = Visuals.multimesh(self, _cone(0.11, 0.15, BODY_HEIGHT), Color(0.2, 0.35, 0.85), Army.MAX_VISIBLE)
-	_hats = Visuals.multimesh(self, _cone(0.0, 0.15, HAT_HEIGHT), Color(0.9, 0.15, 0.15), Army.MAX_VISIBLE)
+	_bodies = Visuals.multimesh(self, _cone(0.11, 0.15, BODY_HEIGHT), skin.body, Army.MAX_VISIBLE)
+	_hats = Visuals.multimesh(self, _cone(0.0, 0.15, HAT_HEIGHT), skin.hat, Army.MAX_VISIBLE)
 	_label = Visuals.count_label(self, 1.7)
 
 

@@ -135,36 +135,37 @@ Generator maakt levels uit een seed (= levelnummer); de validator rekent de best
 Alle regels in `game/logic/` (getest), opslaan en schermen in `game/scenes/`. Waarden: prototype waar mogelijk, aangepast aan onze grotere legers.
 
 ### 1. Voortgang en opslaan
-- [ ] `Progress` (logica): vrijgespeelde levels, sterren per level, munten, upgrades, skins, dagelijkse uitdaging, eindeloos-record; `to_dict`/`from_dict` met versienummer
-- [ ] Opslaan in `user://progress.json` na elke wijziging; kapot of ontbrekend bestand = nieuwe voortgang
+- [x] `Progress` (logica): vrijgespeelde levels, sterren per level, munten, upgrades, skins, dagelijkse uitdaging, eindeloos-record; `to_dict`/`from_dict` met versienummer
+- [x] Opslaan in `user://progress.json` na elke wijziging; kapot of ontbrekend bestand = nieuwe voortgang
 
 ### 2. Sterren en munten (`Rewards`)
-- [ ] Sterren bij winst, op basis van over `r = over / (best − levens)`: 3 bij `r ≥ 0,6`, 2 bij `r ≥ 0,25`, anders 1
-- [ ] Munten bij winst: `10 + 5×level + 3×√over + 5×sterren + verslagen mollen/10`, × muntbonus
-- [ ] Beste score per level blijft bewaard (sterren gaan nooit omlaag)
+- [x] Sterren bij winst, op basis van over `r = over / (best − levens)`: 3 bij `r ≥ 0,6`, 2 bij `r ≥ 0,25`, anders 1
+- [x] Munten bij winst: `10 + 5×level + 3×√over + 5×sterren + verslagen mollen/10`, × muntbonus
+- [x] Beste score per level blijft bewaard (sterren gaan nooit omlaag)
 
 ### 3. Upgrades (met munten, kosten `30 × (niveau+1)^1,5` uit het prototype)
-- [ ] Groter startleger: +5 per niveau (max. 20)
-- [ ] Sneller schieten: +1,5 eikels/s per niveau (max. 10)
-- [ ] Schade: eikels op de baas +0,1 per niveau (max. 10)
-- [ ] Muntopbrengst: +10% per niveau (max. 10)
-- [ ] Upgrades tellen niet mee in de validator (die rekent zonder hulp)
+- [x] Groter startleger: +5 per niveau (max. 20)
+- [x] Sneller schieten: +1,5 eikels/s per niveau (max. 10)
+- [x] Schade: eikels op de baas +0,1 per niveau (max. 10)
+- [x] Muntopbrengst: +10% per niveau (max. 10)
+- [x] Upgrades tellen niet mee in de validator (die rekent zonder hulp)
 
 ### 4. Skins (alleen uiterlijk)
-- [ ] Catalogus met kleuren voor lijf en muts; Klassiek gratis, de rest voor munten; een paar alleen via skinpakketten (M5)
-- [ ] Gekozen skin zichtbaar in het spel
+- [x] Catalogus met kleuren voor lijf en muts; Klassiek gratis, de rest voor munten; een paar alleen via skinpakketten (M5)
+- [x] Gekozen skin zichtbaar in het spel
 
 ### 5. Levelkaart
-- [ ] Kronkelend pad omhoog met genummerde levels, sterren, slotjes; bazen gemarkeerd; hoofdstukbordjes
-- [ ] Tekent alleen het zichtbare stuk, zodat duizenden levels kunnen
-- [ ] Opent bij je huidige level; munten en winkel bovenin
+- [x] Kronkelend pad omhoog met genummerde levels, sterren, slotjes; bazen gemarkeerd; hoofdstukbordjes
+- [x] Tekent alleen het zichtbare stuk, zodat duizenden levels kunnen
+- [x] Opent bij je huidige level; munten en winkel bovenin
 
 ### 6. Dagelijkse uitdaging en eindeloze modus
-- [ ] Dagelijks: level uit de datum (seed `jjjjmmdd`), moeilijkheid volgens je voortgang; eenmaal per dag beloning
-- [ ] Eindeloos: rijen blijven komen en worden steeds lastiger, geen baas; score = gehaalde rijen; record bewaard; munten per rij
+- [x] Dagelijks: level uit de datum (seed `jjjjmmdd`), moeilijkheid volgens je voortgang; eenmaal per dag beloning
+- [x] Eindeloos: rijen blijven komen en worden steeds lastiger, geen baas; score = gehaalde rijen; record bewaard; munten per rij
 
 ### 7. Afronding
-- [ ] Nieuwe IPA, samenvatting + testinstructies
+- [x] Ontwikkelopties: `-- --daily` en `-- --endless`
+- [ ] Nieuwe IPA, samenvatting + testinstructies; Stan test op iPhone
 
 ## Ontwerp: mollen per level (uitwerking in M3)
 
