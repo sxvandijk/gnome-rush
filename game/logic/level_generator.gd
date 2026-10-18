@@ -17,6 +17,7 @@ const MAX_ATTEMPTS := 20
 const MUL_LIMIT := 2000
 ## A layout whose best route ends below this is too weak: next sub-seed.
 const MIN_BEST := 50
+const ENDLESS_ROWS := 120
 const LEVELS_PER_CHAPTER := 20
 
 const MINI_BOSSES := ["cat", "magpie", "sprinkler_robot"]
@@ -40,10 +41,12 @@ const SPRINKLER_OFFSET := 5.0
 const SHIFT_CHANCE := [0.35, 0.55]
 
 
-static func generate(n: int) -> Dictionary:
+## seed_base: -1 for the regular level n (seed n x 1000); the daily
+## challenge passes its own.
+static func generate(n: int, seed_base := -1) -> Dictionary:
 	var data := {}
 	for attempt in MAX_ATTEMPTS:
-		data = _layout(n, attempt)
+		data = _layout(n, (n * 1000 if seed_base < 0 else seed_base) + attempt)
 		var level := LevelData.from_dict(data)
 		var best := LevelValidator.best_route(level)
 		var hp := floorf(maxf(best * Difficulty.boss_factor(n), boss_min_hp(n)))
@@ -87,61 +90,49 @@ static func chase_speed(n: int) -> float:
 	return minf(2.0, 0.6 + 0.03 * n)
 
 
-static func _layout(n: int, attempt: int) -> Dictionary:
+## Endless mode: rows keep coming, each one as hard as level 1 + 2 x row,
+## and there is no boss. Score is the number of rows passed.
+static func endless(seed: int, rows := ENDLESS_ROWS) -> Dictionary:
 	var rng := RandomNumberGenerator.new()
-	rng.seed = n * 1000 + attempt
+	rng.seed = seed
+	var parts := {"pairs": [], "moles": [], "mowers": [], "sprinklers": []}
+	var best := START_COUNT
+	for r in rows:
+		best = _add_row(rng, 1 + 2 * r, FIRST_ROW_Z + r * ROW_SPACING, best, r == rows - 1, parts)
+	var data := {
+		"id": "endless_%d" % seed,
+		"seed": seed,
+		"start_count": START_COUNT,
+		"length": FIRST_ROW_Z + rows * ROW_SPACING,
+		"gate_pairs": parts.pairs,
+	}
+	for key in ["moles", "mowers", "sprinklers"]:
+		if not parts[key].is_empty():
+			data[key] = parts[key]
+	return data
+
+
+static func _layout(n: int, seed: int) -> Dictionary:
+	var rng := RandomNumberGenerator.new()
+	rng.seed = seed
 	var rows := 5 + mini(n, 8)
-	var pairs := []
-	var moles := []
-	var mowers := []
-	var sprinklers := []
+	var parts := {"pairs": [], "moles": [], "mowers": [], "sprinklers": []}
 	# Rough, cautious estimate of the army so far, to size the moles like the
 	# prototype: best gates, chasers assumed to catch the army
 	var best := START_COUNT
-
 	for r in rows:
-		var z := FIRST_ROW_Z + r * ROW_SPACING
-		var good := _good_gate(rng, n, best)
-		var other := _bad_gate(rng, n) if rng.randf() < chance(n, BAD_GATE_CHANCE) else _good_gate(rng, n, best)
-		var good_left := rng.randf() < 0.5
-		var pair := {"z": z, "left": good if good_left else other, "right": other if good_left else good}
-		pairs.append(pair)
-
-		if chapter(n) >= 3 and rng.randf() < chance(n, SHIFT_CHANCE):
-			pair.shift = {
-				"amp": snappedf(rng.randf_range(1.0, 2.0), 0.01),
-				"speed": snappedf(rng.randf_range(0.8, 1.4) + 0.01 * (n - 40), 0.01),
-				"phase": snappedf(rng.randf_range(0.0, TAU), 0.01),
-			}
-		if chapter(n) >= 2 and rng.randf() < chance(n, SPRINKLER_CHANCE):
-			sprinklers.append({
-				"z": z - SPRINKLER_OFFSET,
-				"push": snappedf(sprinkler_push(n), 0.01),
-				"speed": snappedf(rng.randf_range(1.0, 2.0), 0.01),
-				"phase": snappedf(rng.randf_range(0.0, TAU), 0.01),
-			})
-
-		# A sliding split would let the guard end up on the wrong side
-		if n >= GUARD_FROM and not pair.has("shift") and rng.randf() < chance(n, GUARD_CHANCE):
-			var left := Gate.from_dict(pair.left).apply(best)
-			var right := Gate.from_dict(pair.right).apply(best)
-			moles.append({
-				"z": z - GUARD_OFFSET,
-				"x": -GUARD_X if left > right else GUARD_X,
-				"count": _mole_count(rng, best),
-				"guard": true,
-			})
-		best = maxi(Gate.from_dict(pair.left).apply(best), Gate.from_dict(pair.right).apply(best))
-
-		if r < rows - 1:
-			best = _mid_obstacle(rng, n, z + ROW_SPACING * 0.5, best, moles, mowers)
+		best = _add_row(rng, n, FIRST_ROW_Z + r * ROW_SPACING, best, r == rows - 1, parts)
+	var pairs: Array = parts.pairs
+	var moles: Array = parts.moles
+	var mowers: Array = parts.mowers
+	var sprinklers: Array = parts.sprinklers
 
 	var boss_z: float = pairs[-1].z + BOSS_GAP
 	var data := {
 		"id": "level_%03d" % n,
 		"number": n,
 		"chapter": chapter(n),
-		"seed": n * 1000 + attempt,
+		"seed": seed,
 		"start_count": START_COUNT,
 		"length": boss_z,
 		"gate_pairs": pairs,
@@ -155,6 +146,51 @@ static func _layout(n: int, attempt: int) -> Dictionary:
 	if not sprinklers.is_empty():
 		data.sprinklers = sprinklers
 	return data
+
+
+## One gate row at depth z for difficulty level n, with what goes with it:
+## sliding split, sprinkler, guard, and the obstacle halfway to the next
+## row. Returns the updated army estimate.
+static func _add_row(rng: RandomNumberGenerator, n: int, z: float, best: int, last_row: bool, parts: Dictionary) -> int:
+	var pairs: Array = parts.pairs
+	var moles: Array = parts.moles
+	var mowers: Array = parts.mowers
+	var sprinklers: Array = parts.sprinklers
+	var good := _good_gate(rng, n, best)
+	var other := _bad_gate(rng, n) if rng.randf() < chance(n, BAD_GATE_CHANCE) else _good_gate(rng, n, best)
+	var good_left := rng.randf() < 0.5
+	var pair := {"z": z, "left": good if good_left else other, "right": other if good_left else good}
+	pairs.append(pair)
+
+	if chapter(n) >= 3 and rng.randf() < chance(n, SHIFT_CHANCE):
+		pair.shift = {
+			"amp": snappedf(rng.randf_range(1.0, 2.0), 0.01),
+			"speed": snappedf(rng.randf_range(0.8, 1.4) + 0.01 * (n - 40), 0.01),
+			"phase": snappedf(rng.randf_range(0.0, TAU), 0.01),
+		}
+	if chapter(n) >= 2 and rng.randf() < chance(n, SPRINKLER_CHANCE):
+		sprinklers.append({
+			"z": z - SPRINKLER_OFFSET,
+			"push": snappedf(sprinkler_push(n), 0.01),
+			"speed": snappedf(rng.randf_range(1.0, 2.0), 0.01),
+			"phase": snappedf(rng.randf_range(0.0, TAU), 0.01),
+		})
+
+	# A sliding split would let the guard end up on the wrong side
+	if n >= GUARD_FROM and not pair.has("shift") and rng.randf() < chance(n, GUARD_CHANCE):
+		var left := Gate.from_dict(pair.left).apply(best)
+		var right := Gate.from_dict(pair.right).apply(best)
+		moles.append({
+			"z": z - GUARD_OFFSET,
+			"x": -GUARD_X if left > right else GUARD_X,
+			"count": _mole_count(rng, best),
+			"guard": true,
+		})
+	best = maxi(Gate.from_dict(pair.left).apply(best), Gate.from_dict(pair.right).apply(best))
+
+	if not last_row:
+		best = _mid_obstacle(rng, n, z + ROW_SPACING * 0.5, best, moles, mowers)
+	return best
 
 
 ## At most one obstacle halfway between two rows. Returns the updated

@@ -79,6 +79,11 @@ func update(delta: float) -> void:
 		_step(STEP)
 
 
+## Gate rows passed so far (the score in endless mode).
+func rows_passed() -> int:
+	return _next_pair
+
+
 func is_finished() -> bool:
 	return army.is_defeated() or is_won()
 
