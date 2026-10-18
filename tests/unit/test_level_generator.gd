@@ -106,8 +106,15 @@ func test_chapter_mechanics() -> void:
 
 
 func test_sprinklers_get_stronger() -> void:
-	assert_almost_eq(LevelGenerator.sprinkler_push(21), 3.54, 0.001)
-	assert_almost_eq(LevelGenerator.sprinkler_push(60), 5.1, 0.001)
+	assert_almost_eq(LevelGenerator.sprinkler_push(21), 6.0, 0.001)
+	assert_almost_eq(LevelGenerator.sprinkler_push(40), 7.9, 0.001)
+	assert_almost_eq(LevelGenerator.sprinkler_push(60), 9.9, 0.001)
+
+
+func test_obstacles_get_more_frequent() -> void:
+	for range_ in [LevelGenerator.GUARD_CHANCE, LevelGenerator.MOWER_CHANCE, LevelGenerator.CAGE_CHANCE,
+			LevelGenerator.CHASE_CHANCE, LevelGenerator.BAD_GATE_CHANCE]:
+		assert_lt(LevelGenerator.chance(2, range_), LevelGenerator.chance(59, range_))
 
 
 func test_cage_gets_tighter() -> void:
@@ -133,18 +140,10 @@ func test_boss_kinds() -> void:
 	assert_eq(LevelGenerator.boss_kind(60), "koi_emperor")
 
 
-func test_boss_factor_respects_margin() -> void:
-	for n in range(1, 61):
-		assert_lte(LevelGenerator.boss_factor(n) * LevelValidator.MARGIN, 1.0, "level %d" % n)
-	assert_almost_eq(LevelGenerator.boss_factor(1), 0.57, 0.001)
-	assert_almost_eq(LevelGenerator.boss_factor(5), 0.695, 0.001)
-	assert_almost_eq(LevelGenerator.boss_factor(20), 0.80, 0.001)
-
-
 func test_generated_levels_are_fair() -> void:
-	for n in [1, 2, 4, 5, 8, 12, 20, 22, 41]:
+	for n in [1, 2, 4, 5, 8, 12, 20, 22, 41, 60]:
 		var level := LevelData.from_dict(_gen(n))
 		var result := LevelValidator.validate(level)
 		assert_true(result.fair, "level %d: best %d needed %.0f" % [n, result.best, result.needed])
 		var hp: float = _gen(n).boss.hp
-		assert_eq(hp, floorf(maxf(result.best * LevelGenerator.boss_factor(n), LevelGenerator.boss_min_hp(n))), "level %d" % n)
+		assert_eq(hp, floorf(maxf(result.best * Difficulty.boss_factor(n), LevelGenerator.boss_min_hp(n))), "level %d" % n)

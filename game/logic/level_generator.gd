@@ -1,10 +1,11 @@
 class_name LevelGenerator
 extends RefCounted
 ## Builds level n from seed n (values from docs/prototype-waarden.md and the
-## design tables in PLAN.md). The boss gets its hit points from the
-## validator's best route, so every generated level passes the 20% rule; if
-## a layout cannot (army wiped out, too small), the next sub-seed is tried.
-## Same number, same level, on every device.
+## design tables in PLAN.md). Obstacles get more frequent and stronger with
+## the level number (Difficulty), and the boss gets its hit points from the
+## validator's best route and Difficulty.margin(n). If a layout cannot work
+## (army wiped out, too small), the next sub-seed is tried. Same number, same
+## level, on every device.
 
 const START_COUNT := 10
 const FIRST_ROW_Z := 32.0
@@ -21,20 +22,22 @@ const LEVELS_PER_CHAPTER := 20
 const MINI_BOSSES := ["cat", "magpie", "sprinkler_robot"]
 const END_BOSSES := ["mole_king_xl", "flamingo_queen", "koi_emperor"]
 
-# Chances per row, and the level each variant first appears at
-const GUARD_CHANCE := 0.22
+# The level each variant first appears at; chances per row ramp up from the
+# first value (level 1) to the second (level 60), see chance()
 const GUARD_FROM := 2
-const MOWER_CHANCE := 0.12
+const GUARD_CHANCE := [0.15, 0.35]
 const MOWER_FROM := 3
-const CAGE_CHANCE := 0.15
+const MOWER_CHANCE := [0.08, 0.25]
 const CAGE_FROM := 4
-const CHASE_CHANCE := 0.12
+const CAGE_CHANCE := [0.12, 0.22]
 const CHASE_FROM := 8
-const PLAIN_MOLE_CHANCE := 0.05
+const CHASE_CHANCE := [0.08, 0.22]
+const PLAIN_MOLE_CHANCE := [0.05, 0.05]
+const BAD_GATE_CHANCE := [0.45, 0.65]
 # Chapter mechanics
-const SPRINKLER_CHANCE := 0.3
+const SPRINKLER_CHANCE := [0.3, 0.5]
 const SPRINKLER_OFFSET := 5.0
-const SHIFT_CHANCE := 0.35
+const SHIFT_CHANCE := [0.35, 0.55]
 
 
 static func generate(n: int) -> Dictionary:
@@ -43,8 +46,8 @@ static func generate(n: int) -> Dictionary:
 		data = _layout(n, attempt)
 		var level := LevelData.from_dict(data)
 		var best := LevelValidator.best_route(level)
-		var hp := floorf(maxf(best * boss_factor(n), boss_min_hp(n)))
-		if best >= MIN_BEST and hp * LevelValidator.MARGIN <= best:
+		var hp := floorf(maxf(best * Difficulty.boss_factor(n), boss_min_hp(n)))
+		if best >= MIN_BEST and hp * (1.0 + Difficulty.margin(n)) <= best:
 			data.boss.hp = hp
 			return data
 	push_error("Level %d: no fair layout in %d attempts" % [n, MAX_ATTEMPTS])
@@ -63,13 +66,9 @@ static func boss_kind(n: int) -> String:
 	return "mole_king"
 
 
-## Share of the best route the boss gets as hit points (always <= 1/1.2).
-static func boss_factor(n: int) -> float:
-	if n % LEVELS_PER_CHAPTER == 0:
-		return 0.80
-	if n % 5 == 0:
-		return minf(0.80, 0.62 + 0.015 * n)
-	return minf(0.80, 0.55 + 0.02 * n)
+## Chance per row for level n, from a [level 1, level 60] pair.
+static func chance(n: int, range_: Array) -> float:
+	return Difficulty.ramp(n, range_[0], range_[1])
 
 
 static func boss_min_hp(n: int) -> float:
@@ -81,7 +80,7 @@ static func cage_ratio(n: int) -> float:
 
 
 static func sprinkler_push(n: int) -> float:
-	return minf(6.0, 3.5 + 0.04 * (n - LEVELS_PER_CHAPTER))
+	return minf(10.0, 6.0 + 0.1 * (n - LEVELS_PER_CHAPTER - 1))
 
 
 static func chase_speed(n: int) -> float:
@@ -103,18 +102,18 @@ static func _layout(n: int, attempt: int) -> Dictionary:
 	for r in rows:
 		var z := FIRST_ROW_Z + r * ROW_SPACING
 		var good := _good_gate(rng, n, best)
-		var other := _bad_gate(rng, n) if rng.randf() < 0.55 else _good_gate(rng, n, best)
+		var other := _bad_gate(rng, n) if rng.randf() < chance(n, BAD_GATE_CHANCE) else _good_gate(rng, n, best)
 		var good_left := rng.randf() < 0.5
 		var pair := {"z": z, "left": good if good_left else other, "right": other if good_left else good}
 		pairs.append(pair)
 
-		if chapter(n) >= 3 and rng.randf() < SHIFT_CHANCE:
+		if chapter(n) >= 3 and rng.randf() < chance(n, SHIFT_CHANCE):
 			pair.shift = {
 				"amp": snappedf(rng.randf_range(1.0, 2.0), 0.01),
 				"speed": snappedf(rng.randf_range(0.8, 1.4) + 0.01 * (n - 40), 0.01),
 				"phase": snappedf(rng.randf_range(0.0, TAU), 0.01),
 			}
-		if chapter(n) >= 2 and rng.randf() < SPRINKLER_CHANCE:
+		if chapter(n) >= 2 and rng.randf() < chance(n, SPRINKLER_CHANCE):
 			sprinklers.append({
 				"z": z - SPRINKLER_OFFSET,
 				"push": snappedf(sprinkler_push(n), 0.01),
@@ -123,7 +122,7 @@ static func _layout(n: int, attempt: int) -> Dictionary:
 			})
 
 		# A sliding split would let the guard end up on the wrong side
-		if n >= GUARD_FROM and not pair.has("shift") and rng.randf() < GUARD_CHANCE:
+		if n >= GUARD_FROM and not pair.has("shift") and rng.randf() < chance(n, GUARD_CHANCE):
 			var left := Gate.from_dict(pair.left).apply(best)
 			var right := Gate.from_dict(pair.right).apply(best)
 			moles.append({
@@ -162,11 +161,11 @@ static func _layout(n: int, attempt: int) -> Dictionary:
 ## army estimate.
 static func _mid_obstacle(rng: RandomNumberGenerator, n: int, z: float, best: int, moles: Array, mowers: Array) -> int:
 	var side := -1.0 if rng.randf() < 0.5 else 1.0
-	if n >= CHASE_FROM and rng.randf() < CHASE_CHANCE:
+	if n >= CHASE_FROM and rng.randf() < chance(n, CHASE_CHANCE):
 		var count := maxi(2, roundi(best * rng.randf_range(0.10, 0.30)))
 		moles.append({"z": z, "x": side * 3.0, "count": count, "chase": snappedf(chase_speed(n), 0.01)})
 		return best - count
-	elif n >= CAGE_FROM and rng.randf() < CAGE_CHANCE:
+	elif n >= CAGE_FROM and rng.randf() < chance(n, CAGE_CHANCE):
 		var count := maxi(2, roundi(best * rng.randf_range(0.25, 0.5)))
 		var cage := floori(count * cage_ratio(n))
 		moles.append({
@@ -176,13 +175,13 @@ static func _mid_obstacle(rng: RandomNumberGenerator, n: int, z: float, best: in
 			"cage": cage,
 		})
 		return best + cage - count
-	elif n >= MOWER_FROM and rng.randf() < MOWER_CHANCE:
+	elif n >= MOWER_FROM and rng.randf() < chance(n, MOWER_CHANCE):
 		mowers.append({
 			"z": z,
 			"speed": snappedf(rng.randf_range(1.3, 2.1) + 0.05 * n, 0.01),
 			"phase": snappedf(rng.randf_range(0.0, TAU), 0.01),
 		})
-	elif n >= GUARD_FROM and rng.randf() < PLAIN_MOLE_CHANCE:
+	elif n >= GUARD_FROM and rng.randf() < chance(n, PLAIN_MOLE_CHANCE):
 		moles.append({"z": z, "x": snappedf(rng.randf_range(-2.0, 2.0), 0.1), "count": _mole_count(rng, best)})
 	return best
 

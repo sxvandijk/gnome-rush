@@ -1,6 +1,6 @@
 {
   "boss": {
-    "hp": 2074.0,
+    "hp": 2264.0,
     "kind": "mole_king_xl",
     "z": 358.0
   },
@@ -42,7 +42,7 @@
     {
       "left": {
         "op": "add",
-        "value": -50
+        "value": 42
       },
       "right": {
         "op": "mul",

@@ -1,6 +1,6 @@
 {
   "boss": {
-    "hp": 3026.0,
+    "hp": 1538.0,
     "kind": "magpie",
     "z": 358.0
   },
@@ -9,7 +9,7 @@
     {
       "left": {
         "op": "add",
-        "value": -43
+        "value": 79
       },
       "right": {
         "op": "add",
@@ -75,43 +75,43 @@
     {
       "left": {
         "op": "add",
-        "value": -56
+        "value": -69
       },
       "right": {
-        "op": "mul",
-        "value": 2
+        "op": "add",
+        "value": 96
       },
       "z": 188.0
     },
     {
       "left": {
-        "op": "div",
-        "value": 2
+        "op": "add",
+        "value": 12
       },
       "right": {
-        "op": "add",
-        "value": 36
+        "op": "div",
+        "value": 2
       },
       "z": 214.0
     },
     {
       "left": {
-        "op": "div",
-        "value": 2
+        "op": "add",
+        "value": -46
       },
       "right": {
-        "op": "add",
-        "value": 89
+        "op": "mul",
+        "value": 2
       },
       "z": 240.0
     },
     {
       "left": {
         "op": "add",
-        "value": 96
+        "value": 54
       },
       "right": {
-        "op": "div",
+        "op": "mul",
         "value": 2
       },
       "z": 266.0
@@ -119,33 +119,33 @@
     {
       "left": {
         "op": "add",
-        "value": 90
+        "value": 15
       },
       "right": {
         "op": "add",
-        "value": 30
+        "value": 65
       },
       "z": 292.0
     },
     {
       "left": {
-        "op": "mul",
-        "value": 2
+        "op": "add",
+        "value": 84
       },
       "right": {
-        "op": "div",
-        "value": 2
+        "op": "add",
+        "value": 95
       },
       "z": 318.0
     },
     {
       "left": {
         "op": "add",
-        "value": 53
+        "value": 16
       },
       "right": {
-        "op": "div",
-        "value": 2
+        "op": "add",
+        "value": 104
       },
       "z": 344.0
     }
@@ -172,27 +172,27 @@
       "z": 149.0
     },
     {
-      "cage": 296,
-      "count": 239,
-      "x": -2.9,
-      "z": 175.0
-    },
-    {
-      "cage": 569,
-      "count": 459,
-      "x": -1.6,
-      "z": 201.0
+      "count": 92,
+      "guard": true,
+      "x": 2.0,
+      "z": 159.0
     },
     {
       "chase": 1.5,
-      "count": 168,
+      "count": 131,
       "x": -3.0,
-      "z": 279.0
+      "z": 175.0
     },
     {
-      "cage": 1302,
-      "count": 1050,
-      "x": -2.1,
+      "cage": 801,
+      "count": 646,
+      "x": -2.5,
+      "z": 305.0
+    },
+    {
+      "chase": 1.5,
+      "count": 297,
+      "x": -3.0,
       "z": 331.0
     }
   ],
@@ -208,33 +208,39 @@
   "sprinklers": [
     {
       "phase": 5.35,
-      "push": 3.9,
+      "push": 6.9,
       "speed": 1.11,
       "z": 53.0
     },
     {
       "phase": 0.87,
-      "push": 3.9,
+      "push": 6.9,
       "speed": 1.54,
       "z": 79.0
     },
     {
       "phase": 5.99,
-      "push": 3.9,
+      "push": 6.9,
       "speed": 1.78,
       "z": 157.0
     },
     {
-      "phase": 5.44,
-      "push": 3.9,
-      "speed": 1.9,
-      "z": 287.0
+      "phase": 0.38,
+      "push": 6.9,
+      "speed": 1.97,
+      "z": 183.0
     },
     {
-      "phase": 2.6,
-      "push": 3.9,
-      "speed": 1.13,
-      "z": 339.0
+      "phase": 6.25,
+      "push": 6.9,
+      "speed": 1.49,
+      "z": 235.0
+    },
+    {
+      "phase": 5.66,
+      "push": 6.9,
+      "speed": 1.25,
+      "z": 313.0
     }
   ],
   "start_count": 10

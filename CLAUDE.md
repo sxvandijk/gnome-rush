@@ -18,7 +18,7 @@ Werk zo zelfstandig mogelijk. Vraag alleen iets bij keuzes die geld kosten, acco
 - Referentie voor gevoel en getallen: het browserprototype (Stan heeft de link). Neem de regels over, niet de code.
 
 ## Eerlijkheid (harde regels, nooit van afwijken)
-- Een levelvalidator rekent per level de beste route uit zonder schieten en zonder betaalde hulp. Die route moet de baas verslaan met minstens 20% marge. Levels die dat niet halen, worden niet geladen.
+- Het spel loopt van makkelijk naar moeilijk. Een levelvalidator rekent per level de beste route uit zonder schieten en zonder betaalde hulp. Die route moet de baas altijd verslaan, met een marge die afneemt met het levelnummer: 75% in level 1 tot 5% in level 60, bazenlevels iets krapper, nooit onder 3% (`game/logic/difficulty.gd`). Levels die dat niet halen, worden niet geladen.
 - Moeilijkheid hangt alleen af van het levelnummer. Nooit van advertenties, aankopen, highscore of speelgedrag.
 - Het spel zorgt nooit expres voor verlies om een revive-advertentie te tonen.
 - Willekeur alleen via seeds; elk level is reproduceerbaar.

@@ -1,6 +1,6 @@
 {
   "boss": {
-    "hp": 321.0,
+    "hp": 520.0,
     "kind": "sprinkler_robot",
     "z": 358.0
   },
@@ -9,7 +9,7 @@
     {
       "left": {
         "op": "add",
-        "value": -29
+        "value": 43
       },
       "right": {
         "op": "mul",
@@ -86,7 +86,7 @@
     {
       "left": {
         "op": "add",
-        "value": -32
+        "value": 50
       },
       "right": {
         "op": "mul",
@@ -107,12 +107,12 @@
     },
     {
       "left": {
-        "op": "mul",
-        "value": 2
+        "op": "add",
+        "value": 10
       },
       "right": {
-        "op": "mul",
-        "value": 2
+        "op": "add",
+        "value": -32
       },
       "z": 266.0
     },
@@ -129,12 +129,12 @@
     },
     {
       "left": {
-        "op": "add",
-        "value": 7
+        "op": "mul",
+        "value": 2
       },
       "right": {
-        "op": "add",
-        "value": 39
+        "op": "mul",
+        "value": 2
       },
       "z": 318.0
     },
@@ -156,47 +156,47 @@
     {
       "count": 4,
       "guard": true,
-      "x": 2.0,
+      "x": -2.0,
       "z": 29.0
     },
     {
-      "count": 40,
+      "count": 68,
       "guard": true,
       "x": 2.0,
       "z": 107.0
     },
     {
-      "cage": 286,
-      "count": 206,
+      "cage": 465,
+      "count": 335,
       "x": 1.8,
       "z": 149.0
     },
     {
       "chase": 1.05,
-      "count": 115,
+      "count": 180,
       "x": -3.0,
       "z": 175.0
     },
     {
-      "cage": 354,
-      "count": 255,
-      "x": -1.9,
-      "z": 253.0
-    },
-    {
-      "cage": 1401,
-      "count": 1008,
+      "cage": 957,
+      "count": 689,
       "x": 1.8,
       "z": 279.0
     },
     {
-      "count": 785,
+      "count": 537,
       "guard": true,
       "x": -2.0,
       "z": 289.0
     },
     {
-      "count": 735,
+      "cage": 1680,
+      "count": 1209,
+      "x": 2.2,
+      "z": 331.0
+    },
+    {
+      "count": 1123,
       "guard": true,
       "x": 2.0,
       "z": 341.0
@@ -214,9 +214,9 @@
       "z": 227.0
     },
     {
-      "phase": 3.04,
-      "speed": 2.32,
-      "z": 331.0
+      "phase": 1.16,
+      "speed": 2.24,
+      "z": 253.0
     }
   ],
   "number": 15,

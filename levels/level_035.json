@@ -1,6 +1,6 @@
 {
   "boss": {
-    "hp": 344.0,
+    "hp": 575.0,
     "kind": "sprinkler_robot",
     "z": 358.0
   },
@@ -64,46 +64,35 @@
     {
       "left": {
         "op": "add",
-        "value": -58
+        "value": 65
       },
       "right": {
         "op": "add",
-        "value": 93
+        "value": 14
       },
       "z": 162.0
     },
     {
       "left": {
         "op": "add",
-        "value": 17
+        "value": -69
       },
       "right": {
-        "op": "add",
-        "value": -44
+        "op": "mul",
+        "value": 2
       },
       "z": 188.0
     },
     {
       "left": {
-        "op": "mul",
-        "value": 2
-      },
-      "right": {
         "op": "add",
-        "value": 66
-      },
-      "z": 214.0
-    },
-    {
-      "left": {
-        "op": "add",
-        "value": 73
+        "value": 30
       },
       "right": {
         "op": "div",
         "value": 2
       },
-      "z": 240.0
+      "z": 214.0
     },
     {
       "left": {
@@ -112,9 +101,42 @@
       },
       "right": {
         "op": "add",
-        "value": 47
+        "value": 63
+      },
+      "z": 240.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": -74
+      },
+      "right": {
+        "op": "add",
+        "value": 36
       },
       "z": 266.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": -43
+      },
+      "right": {
+        "op": "add",
+        "value": 12
+      },
+      "z": 292.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": 91
+      },
+      "right": {
+        "op": "mul",
+        "value": 2
+      },
+      "z": 318.0
     },
     {
       "left": {
@@ -123,29 +145,7 @@
       },
       "right": {
         "op": "add",
-        "value": 22
-      },
-      "z": 292.0
-    },
-    {
-      "left": {
-        "op": "add",
-        "value": 37
-      },
-      "right": {
-        "op": "add",
-        "value": 13
-      },
-      "z": 318.0
-    },
-    {
-      "left": {
-        "op": "mul",
-        "value": 2
-      },
-      "right": {
-        "op": "add",
-        "value": -32
+        "value": 79
       },
       "z": 344.0
     }
@@ -178,35 +178,34 @@
       "z": 123.0
     },
     {
-      "count": 160,
+      "count": 83,
       "guard": true,
       "x": 2.0,
       "z": 133.0
     },
     {
-      "chase": 1.65,
-      "count": 49,
-      "x": -3.0,
-      "z": 149.0
+      "count": 398,
+      "guard": true,
+      "x": -2.0,
+      "z": 211.0
     },
     {
-      "chase": 1.65,
-      "count": 170,
-      "x": -3.0,
+      "cage": 349,
+      "count": 294,
+      "x": -1.7,
+      "z": 227.0
+    },
+    {
+      "cage": 579,
+      "count": 487,
+      "x": -2.3,
       "z": 253.0
     },
     {
-      "chase": 1.65,
-      "count": 170,
-      "x": -3.0,
-      "z": 305.0
-    }
-  ],
-  "mowers": [
-    {
-      "phase": 4.02,
-      "speed": 3.73,
-      "z": 331.0
+      "count": 448,
+      "guard": true,
+      "x": 2.0,
+      "z": 289.0
     }
   ],
   "number": 35,
@@ -214,15 +213,21 @@
   "sprinklers": [
     {
       "phase": 4.65,
-      "push": 4.1,
+      "push": 7.4,
       "speed": 1.75,
       "z": 27.0
     },
     {
-      "phase": 6.09,
-      "push": 4.1,
-      "speed": 1.17,
-      "z": 183.0
+      "phase": 5.14,
+      "push": 7.4,
+      "speed": 1.09,
+      "z": 131.0
+    },
+    {
+      "phase": 3.55,
+      "push": 7.4,
+      "speed": 1.93,
+      "z": 209.0
     }
   ],
   "start_count": 10

@@ -1,6 +1,6 @@
 {
   "boss": {
-    "hp": 1465.0,
+    "hp": 2126.0,
     "kind": "mole_king",
     "z": 358.0
   },
@@ -9,104 +9,154 @@
     {
       "left": {
         "op": "add",
-        "value": 113
+        "value": 60
       },
       "right": {
-        "op": "mul",
-        "value": 3
+        "op": "div",
+        "value": 2
       },
       "shift": {
-        "amp": 1.53,
-        "phase": 5.35,
-        "speed": 1.24
+        "amp": 1.99,
+        "phase": 0.65,
+        "speed": 1.32
       },
       "z": 32.0
     },
     {
       "left": {
         "op": "add",
-        "value": -37
+        "value": -118
       },
       "right": {
-        "op": "add",
-        "value": 52
+        "op": "mul",
+        "value": 2
       },
       "shift": {
-        "amp": 1.22,
-        "phase": 4.88,
-        "speed": 1.24
+        "amp": 1.38,
+        "phase": 6.1,
+        "speed": 1.1
       },
       "z": 58.0
     },
     {
       "left": {
-        "op": "mul",
-        "value": 2
-      },
-      "right": {
         "op": "div",
         "value": 2
       },
-      "shift": {
-        "amp": 1.18,
-        "phase": 1.08,
-        "speed": 1.05
+      "right": {
+        "op": "add",
+        "value": 34
       },
       "z": 84.0
     },
     {
       "left": {
-        "op": "add",
-        "value": -34
+        "op": "mul",
+        "value": 2
       },
       "right": {
         "op": "mul",
         "value": 2
       },
+      "shift": {
+        "amp": 1.17,
+        "phase": 1.09,
+        "speed": 1.17
+      },
       "z": 110.0
     },
     {
       "left": {
-        "op": "div",
-        "value": 2
+        "op": "add",
+        "value": -57
       },
       "right": {
         "op": "add",
-        "value": 59
-      },
-      "shift": {
-        "amp": 1.84,
-        "phase": 2.84,
-        "speed": 0.97
+        "value": 61
       },
       "z": 136.0
     },
     {
       "left": {
         "op": "add",
-        "value": -33
+        "value": 68
       },
       "right": {
-        "op": "add",
-        "value": 120
+        "op": "div",
+        "value": 2
       },
       "shift": {
-        "amp": 1.44,
-        "phase": 5.0,
-        "speed": 1.16
+        "amp": 1.1,
+        "phase": 1.57,
+        "speed": 1.41
       },
       "z": 162.0
     },
     {
       "left": {
         "op": "add",
-        "value": 115
+        "value": 59
       },
       "right": {
         "op": "add",
-        "value": 150
+        "value": 53
       },
       "z": 188.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": 131
+      },
+      "right": {
+        "op": "div",
+        "value": 2
+      },
+      "z": 214.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": 28
+      },
+      "right": {
+        "op": "add",
+        "value": 32
+      },
+      "z": 240.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": 157
+      },
+      "right": {
+        "op": "add",
+        "value": 118
+      },
+      "z": 266.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": 64
+      },
+      "right": {
+        "op": "mul",
+        "value": 2
+      },
+      "z": 292.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": -29
+      },
+      "right": {
+        "op": "mul",
+        "value": 2
+      },
+      "z": 318.0
     },
     {
       "left": {
@@ -115,82 +165,7 @@
       },
       "right": {
         "op": "add",
-        "value": 86
-      },
-      "z": 214.0
-    },
-    {
-      "left": {
-        "op": "mul",
-        "value": 2
-      },
-      "right": {
-        "op": "add",
-        "value": 31
-      },
-      "shift": {
-        "amp": 1.52,
-        "phase": 0.9,
-        "speed": 1.31
-      },
-      "z": 240.0
-    },
-    {
-      "left": {
-        "op": "add",
-        "value": 101
-      },
-      "right": {
-        "op": "add",
-        "value": -103
-      },
-      "shift": {
-        "amp": 1.43,
-        "phase": 0.19,
-        "speed": 1.5
-      },
-      "z": 266.0
-    },
-    {
-      "left": {
-        "op": "add",
-        "value": 11
-      },
-      "right": {
-        "op": "add",
-        "value": 47
-      },
-      "shift": {
-        "amp": 1.77,
-        "phase": 3.06,
-        "speed": 1.41
-      },
-      "z": 292.0
-    },
-    {
-      "left": {
-        "op": "add",
-        "value": 159
-      },
-      "right": {
-        "op": "add",
-        "value": 157
-      },
-      "z": 318.0
-    },
-    {
-      "left": {
-        "op": "add",
-        "value": -119
-      },
-      "right": {
-        "op": "add",
-        "value": 88
-      },
-      "shift": {
-        "amp": 1.17,
-        "phase": 0.12,
-        "speed": 0.99
+        "value": 132
       },
       "z": 344.0
     }
@@ -199,38 +174,115 @@
   "length": 358.0,
   "moles": [
     {
-      "cage": 487,
-      "count": 443,
-      "x": -2.8,
+      "chase": 2.0,
+      "count": 18,
+      "x": 3.0,
+      "z": 45.0
+    },
+    {
+      "chase": 2.0,
+      "count": 40,
+      "x": -3.0,
+      "z": 97.0
+    },
+    {
+      "count": 67,
+      "guard": true,
+      "x": 2.0,
+      "z": 133.0
+    },
+    {
+      "chase": 2.0,
+      "count": 37,
+      "x": 3.0,
+      "z": 175.0
+    },
+    {
+      "chase": 2.0,
+      "count": 43,
+      "x": 3.0,
       "z": 201.0
     },
     {
-      "count": 498,
+      "count": 97,
       "guard": true,
-      "x": 2.0,
+      "x": -2.0,
       "z": 211.0
     },
     {
-      "cage": 1269,
-      "count": 1154,
-      "x": 2.5,
+      "chase": 2.0,
+      "count": 79,
+      "x": -3.0,
+      "z": 279.0
+    },
+    {
+      "chase": 2.0,
+      "count": 478,
+      "x": -3.0,
+      "z": 331.0
+    }
+  ],
+  "mowers": [
+    {
+      "phase": 0.39,
+      "speed": 4.13,
+      "z": 123.0
+    },
+    {
+      "phase": 1.3,
+      "speed": 4.24,
+      "z": 149.0
+    },
+    {
+      "phase": 0.88,
+      "speed": 4.36,
       "z": 253.0
     }
   ],
   "number": 56,
-  "seed": 56000,
+  "seed": 56004,
   "sprinklers": [
     {
-      "phase": 0.13,
-      "push": 4.94,
-      "speed": 1.96,
+      "phase": 5.35,
+      "push": 9.5,
+      "speed": 1.41,
+      "z": 53.0
+    },
+    {
+      "phase": 2.58,
+      "push": 9.5,
+      "speed": 1.15,
+      "z": 79.0
+    },
+    {
+      "phase": 0.53,
+      "push": 9.5,
+      "speed": 1.41,
       "z": 131.0
     },
     {
-      "phase": 2.23,
-      "push": 4.94,
-      "speed": 1.47,
-      "z": 339.0
+      "phase": 2.88,
+      "push": 9.5,
+      "speed": 1.5,
+      "z": 209.0
+    },
+    {
+      "phase": 0.23,
+      "push": 9.5,
+      "speed": 1.89,
+      "z": 235.0
+    },
+    {
+      "phase": 4.47,
+      "push": 9.5,
+      "speed": 1.75,
+      "z": 287.0
+    },
+    {
+      "phase": 3.16,
+      "push": 9.5,
+      "speed": 1.77,
+      "z": 313.0
     }
   ],
   "start_count": 10

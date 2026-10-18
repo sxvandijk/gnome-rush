@@ -1,8 +1,8 @@
 class_name LevelValidator
 extends RefCounted
 ## Works out the best route through a level without shooting or paid help
-## and checks the fairness rule: that route must beat the boss with at least
-## 20% to spare (hp x 1.2 <= best).
+## and checks that it beats the boss with the room the difficulty curve asks
+## for: best >= hp x (1 + Difficulty.margin(level number)).
 ##
 ## 1. make_plan(): picks a side at every gate pair and decides per mole group
 ##    whether to fight. Every rule is monotone in the army size (more in, more
@@ -11,7 +11,6 @@ extends RefCounted
 ##    around mowers and dodged moles. The army size at the boss is `best`: a
 ##    lower bound of the true optimum, so the check errs on the fair side.
 
-const MARGIN := 1.2
 ## A mole group at most this far before a gate pair guards that gate: there
 ## is no room left to dodge it and still reach the gate behind it.
 const GUARD_DISTANCE := 6.0
@@ -87,11 +86,11 @@ static func best_route(level: LevelData, plan: Plan = null) -> int:
 	return run.army.count
 
 
-## {fair: bool, best: int, needed: float} — needed is hp x 1.2.
+## {fair: bool, best: int, needed: float} — needed is hp x (1 + margin).
 static func validate(level: LevelData) -> Dictionary:
 	var best := best_route(level)
 	var boss := level.create_boss()
-	var needed := boss.max_hp * MARGIN if boss else 1.0
+	var needed := boss.max_hp * (1.0 + Difficulty.margin(level.number)) if boss else 1.0
 	return {"fair": best > 0 and best >= needed, "best": best, "needed": needed}
 
 
@@ -124,6 +123,11 @@ static func pilot_target(run: RunState, plan: Plan) -> float:
 			break
 		if plan.fight[i] or group.cage_waiting():
 			target = group.x
+		elif group.chase > 0.0:
+			# Lure the chasers to one edge, then swerve to the other once they lock
+			var side := signf(group.x) if group.x != 0.0 else 1.0
+			var locked := group.z - run.distance <= RunState.CHASE_LOCK + 1.0
+			target = (-side if locked else side) * run.army.x_limit
 		else:
 			target = -signf(group.x) * run.army.x_limit if group.x != 0.0 else run.army.x_limit
 		event_z = group.z

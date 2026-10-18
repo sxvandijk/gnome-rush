@@ -1,6 +1,6 @@
 {
   "boss": {
-    "hp": 2275.0,
+    "hp": 348.0,
     "kind": "mole_king",
     "z": 358.0
   },
@@ -19,41 +19,41 @@
     },
     {
       "left": {
-        "op": "mul",
-        "value": 2
+        "op": "add",
+        "value": 41
       },
       "right": {
         "op": "add",
-        "value": -68
+        "value": -35
       },
       "z": 58.0
     },
     {
       "left": {
-        "op": "div",
+        "op": "mul",
         "value": 2
       },
       "right": {
         "op": "add",
-        "value": 36
+        "value": -65
       },
       "z": 84.0
     },
     {
       "left": {
         "op": "add",
-        "value": -15
+        "value": 52
       },
       "right": {
         "op": "add",
-        "value": 30
+        "value": -68
       },
       "z": 110.0
     },
     {
       "left": {
-        "op": "mul",
-        "value": 3
+        "op": "add",
+        "value": 68
       },
       "right": {
         "op": "mul",
@@ -75,29 +75,29 @@
     {
       "left": {
         "op": "add",
-        "value": -61
+        "value": -40
       },
       "right": {
-        "op": "mul",
-        "value": 2
+        "op": "add",
+        "value": 82
       },
       "z": 188.0
     },
     {
       "left": {
-        "op": "add",
-        "value": 23
+        "op": "div",
+        "value": 2
       },
       "right": {
         "op": "add",
-        "value": -71
+        "value": 12
       },
       "z": 214.0
     },
     {
       "left": {
-        "op": "add",
-        "value": -83
+        "op": "div",
+        "value": 2
       },
       "right": {
         "op": "mul",
@@ -108,44 +108,44 @@
     {
       "left": {
         "op": "add",
-        "value": 12
+        "value": 99
       },
       "right": {
         "op": "add",
-        "value": 19
+        "value": 91
       },
       "z": 266.0
     },
     {
       "left": {
-        "op": "add",
-        "value": 23
+        "op": "mul",
+        "value": 2
       },
       "right": {
-        "op": "add",
-        "value": -76
+        "op": "mul",
+        "value": 2
       },
       "z": 292.0
     },
     {
       "left": {
         "op": "add",
-        "value": -82
+        "value": 115
       },
       "right": {
         "op": "add",
-        "value": 43
+        "value": 59
       },
       "z": 318.0
     },
     {
       "left": {
         "op": "add",
-        "value": 59
+        "value": 68
       },
       "right": {
         "op": "add",
-        "value": -52
+        "value": 112
       },
       "z": 344.0
     }
@@ -154,38 +154,98 @@
   "length": 358.0,
   "moles": [
     {
-      "cage": 62,
-      "count": 53,
-      "x": 2.9,
+      "chase": 1.71,
+      "count": 13,
+      "x": -3.0,
+      "z": 45.0
+    },
+    {
+      "count": 11,
+      "guard": true,
+      "x": -2.0,
+      "z": 55.0
+    },
+    {
+      "chase": 1.71,
+      "count": 19,
+      "x": -3.0,
       "z": 97.0
     },
     {
-      "cage": 293,
-      "count": 251,
-      "x": 2.2,
+      "count": 63,
+      "guard": true,
+      "x": -2.0,
+      "z": 107.0
+    },
+    {
+      "count": 125,
+      "guard": true,
+      "x": 2.0,
+      "z": 211.0
+    },
+    {
+      "cage": 280,
+      "count": 240,
+      "x": 1.8,
+      "z": 253.0
+    },
+    {
+      "count": 542,
+      "x": 0.6,
+      "z": 279.0
+    }
+  ],
+  "mowers": [
+    {
+      "phase": 2.84,
+      "speed": 3.52,
       "z": 175.0
-    },
-    {
-      "cage": 621,
-      "count": 531,
-      "x": -2.7,
-      "z": 227.0
-    },
-    {
-      "cage": 1449,
-      "count": 1239,
-      "x": 2.4,
-      "z": 305.0
     }
   ],
   "number": 37,
   "seed": 37001,
   "sprinklers": [
     {
+      "phase": 2.37,
+      "push": 7.6,
+      "speed": 1.63,
+      "z": 53.0
+    },
+    {
       "phase": 5.25,
-      "push": 4.18,
+      "push": 7.6,
       "speed": 1.07,
       "z": 131.0
+    },
+    {
+      "phase": 4.22,
+      "push": 7.6,
+      "speed": 1.64,
+      "z": 157.0
+    },
+    {
+      "phase": 1.07,
+      "push": 7.6,
+      "speed": 2.0,
+      "z": 183.0
+    },
+    {
+      "phase": 4.9,
+      "push": 7.6,
+      "speed": 1.84,
+      "z": 209.0
+    },
+    {
+      "phase": 3.85,
+      "push": 7.6,
+      "speed": 1.47,
+      "z": 313.0
+    },
+    {
+      "phase": 3.45,
+      "push": 7.6,
+      "speed": 1.54,
+      "z": 339.0
     }
   ],
   "start_count": 10

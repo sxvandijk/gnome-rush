@@ -97,7 +97,7 @@ Generator maakt levels uit een seed (= levelnummer); de validator rekent de best
 ### 1. Validator `game/logic/level_validator.gd`
 - [x] Planner: per poort, mollengroep en kooi de beste keuze (alle bewerkingen zijn monotoon, dus per stap het grootste leger kiezen is optimaal); bewaakte poort alleen via vechten
 - [x] Piloot: speelt het plan na in `RunState` zonder schieten, ontwijkt maaiers en achtervolgers; aantal bij de baas = `best` (ondergrens van het echte optimum, dus aan de veilige kant)
-- [x] `validate(level)`: eerlijk als `levens × 1,2 ≤ best`; `test_levels.gd` gebruikt de validator
+- [x] `validate(level)`: te halen als `levens × (1 + marge(level)) ≤ best`; `test_levels.gd` gebruikt de validator
 
 ### 2. Generator `game/logic/level_generator.gd`
 - [x] Rijen elke 26 vanaf z = 32, aantal `5 + min(level, 8)`; poortkansen volgens het prototype
@@ -118,7 +118,13 @@ Generator maakt levels uit een seed (= levelnummer); de validator rekent de best
 - [x] Simpele levelkeuze (nummer kiezen, na winst volgende level); de echte levelkaart komt in M4
 - [x] Tests: alle 60 levels eerlijk, reproduceerbaar (zelfde seed = zelfde JSON)
 
-### 5. Afronding
+### 5. Moeilijkheid van makkelijk naar moeilijk (feedback Stan)
+- [x] `game/logic/difficulty.gd`: marge loopt af van 75% (level 1) naar 5% (level 60); tussenbazen ×0,8, eindbazen ×0,6, nooit onder 3%
+- [x] Obstakelkansen lopen op met het level (bewaakte poorten, maaiers, kooien, achtervolgers, slechte poorten, sproeiers, schuivende poorten)
+- [x] Achtervolgers stoppen op 7 eenheden afstand: op het laatste moment uitwijken lukt altijd (Stan: rode mollen soms niet te ontwijken)
+- [x] Sproeiers heftiger: duw 6 (level 21) tot 10 (level 60) eenheden/s
+
+### 6. Afronding
 - [x] Ontwikkelopties: `-- --level=N` start direct in level N, `-- --autopilot` laat de validatorpiloot spelen
 - [ ] Nieuwe IPA, samenvatting + testinstructies; Stan test op iPhone
 
@@ -131,21 +137,24 @@ Makkelijk beginnen, later lastiger. Losse mollen die alleen in de weg staan kome
 | Bewaakte poort | 2 | groep 25–55% van het beste leger (prototype); bewaakt altijd de betere poort |
 | Grasmaaiers | 3 | prototype: `v = 1,3–2,1 + 0,05×level` |
 | Kooi | 4 | kooi = mollen × `max(1,1; 1,5 − 0,01×(level − 4))`: eerst ruim (1,5×), later krap (1,1×) |
-| Achtervolgers | 8 | `chase = min(2,0; 0,6 + 0,03×level)` eenheden/s, groep 10–30% van het leger (sneller/groter was met een breed leger niet te ontwijken) |
+| Achtervolgers | 8 | `chase = min(2,0; 0,6 + 0,03×level)` eenheden/s, groep 10–30% van het leger; stoppen op 7 eenheden afstand, zodat laat uitwijken altijd lukt |
 | Munten per mol | M4 | 1 munt per verslagen mol |
 
-## Ontwerp: eerlijke bazen (uitwerking in M3)
+## Ontwerp: moeilijkheid en bazen
 
-Regel: de beste route zonder schieten en zonder hulp (`best`) moet de baas halen met minstens 20% marge, dus `levens × 1,2 ≤ best` ofwel `levens ≤ 0,833 × best`. De validator rekent `best` uit met dezelfde simulatie (mollen en maaiers inbegrepen, ideaal ontwijken).
+Het spel loopt van makkelijk naar moeilijk. Alles wat moeilijker wordt, hangt alleen van het levelnummer af (`game/logic/difficulty.gd`). De validator rekent de beste route zonder schieten (`best`); die moet de baas altijd halen, met een marge die afneemt:
 
-| Baas | Wanneer | Levens | Marge bij `best` |
-|---|---|---|---|
-| Molkoning (gewoon) | elk level | `best × min(0,80; 0,55 + 0,02×level)`, min. 5 | ≥ 25% |
-| Tussenbaas (kat, ekster, sproeierrobot) | elk 5e level, behalve 20/40/60 | `best × min(0,80; 0,62 + 0,015×level)`, min. 8 | ≥ 25% |
-| Eindbaas (molkoning XL, flamingokoningin) | level 20, 40, 60 | `best × 0,80` | 25% |
+| Level | Marge `best / levens − 1` | Gevoel |
+|---|---|---|
+| 1 | 75% | ruim, fouten mogen |
+| 30 | ~41% | je moet goed kiezen |
+| 59 | ~6% | bijna perfect spelen of goed schieten |
+| tussenbaas (elk 5e) | marge × 0,8 | piekje |
+| eindbaas (20, 40, 60) | marge × 0,6, min. 3% | zwaarste van het hoofdstuk |
 
-- De afronding is altijd naar beneden. De validator controleert daarna nog eens hard `levens × 1,2 ≤ best` en weigert het level als dat niet klopt.
-- Tussen- en eindbazen krijgen in M3 een eigen eigenschap (bijvoorbeeld een kat die het leger even terugduwt). Die eigenschap kost nooit kabouters buiten de berekende route om, anders telt de validator haar mee.
+- Levens = `floor(best / (1 + marge))`, minimaal 5 (tussen-/eindbaas 8). Schieten geeft de speler extra ruimte bovenop de marge.
+- Obstakelkansen per rij lopen lineair op van level 1 naar 60 (zie `LevelGenerator`).
+- Tussen- en eindbazen krijgen later een eigen eigenschap (zie TODO.md).
 
 ## IPA installeren (Stan)
 1. GitHub → Actions → "iOS build" → "Run workflow" (of push een tag `v0.1.0`).

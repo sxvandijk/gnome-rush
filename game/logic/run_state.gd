@@ -23,8 +23,10 @@ const MOLE_FIGHT_SPEED := 0.5
 ## Big fights trade faster (still one for one) so they never drag on.
 const MOLE_FIGHT_MAX_TIME := 2.0
 const BOSS_FIGHT_MAX_TIME := 6.0
-## Chasing moles start closing in when the army is this close.
+## Chasing moles start closing in when the army is this close, and stop
+## (lock their spot) when it is closer than CHASE_LOCK: a late swerve escapes.
 const CHASE_RANGE := 20.0
+const CHASE_LOCK := 7.0
 const MOWER_INTERVAL := 0.045
 const EPSILON := 1e-6
 
@@ -185,13 +187,13 @@ func _check_cages() -> void:
 			cage_opened.emit(group)
 
 
-## Chasing moles slide sideways towards the army once it is in range.
+## Chasing moles slide sideways towards the army while it is in range.
 func _chase(dt: float) -> void:
 	for group in moles:
 		if group.chase <= 0.0 or group.resolved or group == fighting:
 			continue
 		var ahead := group.z - distance
-		if ahead < 0.0 or ahead > CHASE_RANGE:
+		if ahead < CHASE_LOCK or ahead > CHASE_RANGE:
 			continue
 		group.x = clampf(move_toward(group.x, army.center_x, group.chase * dt), -army.x_limit, army.x_limit)
 

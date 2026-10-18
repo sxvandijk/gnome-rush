@@ -1,6 +1,6 @@
 {
   "boss": {
-    "hp": 1302.0,
+    "hp": 4021.0,
     "kind": "mole_king",
     "z": 358.0
   },
@@ -9,148 +9,56 @@
     {
       "left": {
         "op": "add",
-        "value": 107
+        "value": 55
       },
       "right": {
-        "op": "mul",
-        "value": 3
+        "op": "div",
+        "value": 2
       },
       "z": 32.0
     },
     {
       "left": {
         "op": "add",
-        "value": -65
+        "value": 142
       },
       "right": {
-        "op": "mul",
-        "value": 3
+        "op": "add",
+        "value": 145
       },
       "z": 58.0
     },
     {
       "left": {
         "op": "add",
-        "value": 58
+        "value": -35
       },
       "right": {
         "op": "add",
-        "value": -40
+        "value": 161
       },
       "shift": {
-        "amp": 1.24,
-        "phase": 0.5,
-        "speed": 1.5
+        "amp": 1.58,
+        "phase": 4.24,
+        "speed": 1.08
       },
       "z": 84.0
     },
     {
       "left": {
         "op": "add",
-        "value": 155
+        "value": 26
       },
       "right": {
         "op": "add",
-        "value": 79
+        "value": -67
+      },
+      "shift": {
+        "amp": 1.31,
+        "phase": 0.88,
+        "speed": 0.96
       },
       "z": 110.0
-    },
-    {
-      "left": {
-        "op": "add",
-        "value": 49
-      },
-      "right": {
-        "op": "add",
-        "value": 94
-      },
-      "shift": {
-        "amp": 1.34,
-        "phase": 3.19,
-        "speed": 0.94
-      },
-      "z": 136.0
-    },
-    {
-      "left": {
-        "op": "add",
-        "value": 156
-      },
-      "right": {
-        "op": "add",
-        "value": -37
-      },
-      "z": 162.0
-    },
-    {
-      "left": {
-        "op": "add",
-        "value": -88
-      },
-      "right": {
-        "op": "add",
-        "value": 89
-      },
-      "z": 188.0
-    },
-    {
-      "left": {
-        "op": "add",
-        "value": -10
-      },
-      "right": {
-        "op": "add",
-        "value": 152
-      },
-      "z": 214.0
-    },
-    {
-      "left": {
-        "op": "add",
-        "value": 63
-      },
-      "right": {
-        "op": "add",
-        "value": 76
-      },
-      "shift": {
-        "amp": 1.18,
-        "phase": 4.59,
-        "speed": 1.09
-      },
-      "z": 240.0
-    },
-    {
-      "left": {
-        "op": "add",
-        "value": 109
-      },
-      "right": {
-        "op": "add",
-        "value": 139
-      },
-      "shift": {
-        "amp": 1.41,
-        "phase": 0.84,
-        "speed": 1.29
-      },
-      "z": 266.0
-    },
-    {
-      "left": {
-        "op": "add",
-        "value": -93
-      },
-      "right": {
-        "op": "mul",
-        "value": 2
-      },
-      "shift": {
-        "amp": 1.67,
-        "phase": 2.84,
-        "speed": 1.11
-      },
-      "z": 292.0
     },
     {
       "left": {
@@ -159,23 +67,125 @@
       },
       "right": {
         "op": "add",
-        "value": 30
+        "value": 47
       },
       "shift": {
-        "amp": 1.55,
-        "phase": 0.76,
-        "speed": 1.36
+        "amp": 1.54,
+        "phase": 5.98,
+        "speed": 1.22
+      },
+      "z": 136.0
+    },
+    {
+      "left": {
+        "op": "div",
+        "value": 2
+      },
+      "right": {
+        "op": "add",
+        "value": 33
+      },
+      "shift": {
+        "amp": 1.88,
+        "phase": 1.63,
+        "speed": 1.46
+      },
+      "z": 162.0
+    },
+    {
+      "left": {
+        "op": "div",
+        "value": 2
+      },
+      "right": {
+        "op": "add",
+        "value": 11
+      },
+      "z": 188.0
+    },
+    {
+      "left": {
+        "op": "mul",
+        "value": 2
+      },
+      "right": {
+        "op": "mul",
+        "value": 2
+      },
+      "shift": {
+        "amp": 1.85,
+        "phase": 6.25,
+        "speed": 0.92
+      },
+      "z": 214.0
+    },
+    {
+      "left": {
+        "op": "div",
+        "value": 2
+      },
+      "right": {
+        "op": "mul",
+        "value": 2
+      },
+      "z": 240.0
+    },
+    {
+      "left": {
+        "op": "mul",
+        "value": 2
+      },
+      "right": {
+        "op": "div",
+        "value": 2
+      },
+      "shift": {
+        "amp": 1.61,
+        "phase": 1.9,
+        "speed": 1.1
+      },
+      "z": 266.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": 153
+      },
+      "right": {
+        "op": "div",
+        "value": 2
+      },
+      "z": 292.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": 149
+      },
+      "right": {
+        "op": "add",
+        "value": -88
+      },
+      "shift": {
+        "amp": 1.32,
+        "phase": 2.44,
+        "speed": 1.46
       },
       "z": 318.0
     },
     {
       "left": {
         "op": "add",
-        "value": 59
+        "value": -24
       },
       "right": {
         "op": "add",
-        "value": 92
+        "value": 100
+      },
+      "shift": {
+        "amp": 1.54,
+        "phase": 5.94,
+        "speed": 1.45
       },
       "z": 344.0
     }
@@ -184,75 +194,86 @@
   "length": 358.0,
   "moles": [
     {
-      "count": 3,
-      "guard": true,
+      "cage": 171,
+      "count": 156,
       "x": -2.0,
-      "z": 29.0
-    },
-    {
-      "cage": 204,
-      "count": 186,
-      "x": 2.9,
-      "z": 97.0
+      "z": 123.0
     },
     {
       "chase": 2.0,
-      "count": 224,
-      "x": 3.0,
-      "z": 175.0
-    },
-    {
-      "chase": 2.0,
-      "count": 180,
+      "count": 75,
       "x": -3.0,
+      "z": 149.0
+    },
+    {
+      "cage": 425,
+      "count": 387,
+      "x": -1.7,
       "z": 227.0
     },
     {
-      "chase": 2.0,
-      "count": 142,
-      "x": -3.0,
-      "z": 253.0
-    },
-    {
-      "cage": 533,
-      "count": 485,
+      "cage": 1696,
+      "count": 1542,
       "x": 1.8,
-      "z": 305.0
+      "z": 331.0
     }
   ],
   "mowers": [
     {
-      "phase": 2.82,
-      "speed": 4.46,
+      "phase": 1.32,
+      "speed": 3.91,
+      "z": 175.0
+    },
+    {
+      "phase": 4.71,
+      "speed": 4.21,
       "z": 201.0
     }
   ],
   "number": 51,
-  "seed": 51003,
+  "seed": 51001,
   "sprinklers": [
     {
-      "phase": 6.23,
-      "push": 4.74,
-      "speed": 1.43,
-      "z": 27.0
-    },
-    {
-      "phase": 2.83,
-      "push": 4.74,
-      "speed": 1.84,
+      "phase": 1.88,
+      "push": 9.0,
+      "speed": 1.22,
       "z": 53.0
     },
     {
-      "phase": 3.2,
-      "push": 4.74,
-      "speed": 1.59,
-      "z": 79.0
+      "phase": 2.3,
+      "push": 9.0,
+      "speed": 1.85,
+      "z": 157.0
     },
     {
-      "phase": 6.14,
-      "push": 4.74,
-      "speed": 1.55,
+      "phase": 5.2,
+      "push": 9.0,
+      "speed": 1.02,
+      "z": 183.0
+    },
+    {
+      "phase": 4.04,
+      "push": 9.0,
+      "speed": 1.75,
       "z": 235.0
+    },
+    {
+      "phase": 1.46,
+      "push": 9.0,
+      "speed": 1.15,
+      "z": 261.0
+    },
+    {
+      "phase": 3.13,
+      "push": 9.0,
+      "speed": 1.88,
+      "z": 313.0
+    },
+    {
+      "phase": 1.42,
+      "push": 9.0,
+      "speed": 1.71,
+      "z": 339.0
     }
   ],
   "start_count": 10

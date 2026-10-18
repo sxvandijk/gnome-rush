@@ -287,6 +287,28 @@ func test_chasing_moles_move_towards_army() -> void:
 	assert_lte(run.moles[0].x, -4.0 + 2.0 * 0.5 + 0.001)
 
 
+func test_chasing_moles_lock_when_close() -> void:
+	var run := _run({"moles": [{"z": 25.0, "x": -4.0, "count": 5, "chase": 2.0}]})
+	run.set_target_x(4.0)
+	run.army.set_center_x(4.0)
+	while 25.0 - run.distance > RunState.CHASE_LOCK:
+		run.update(STEP)
+	var locked_x := run.moles[0].x
+	assert_gt(locked_x, -4.0)
+	run.update(0.5)
+	assert_eq(run.moles[0].x, locked_x)
+
+
+func test_late_swerve_escapes_chasers() -> void:
+	var run := _run({"moles": [{"z": 30.0, "x": 3.0, "count": 5, "chase": 2.0}], "start_count": 100})
+	run.set_target_x(4.3)
+	while 30.0 - run.distance > RunState.CHASE_LOCK:
+		run.update(STEP)
+	run.set_target_x(-4.3)
+	_run_to(run, 40.0)
+	assert_eq(run.army.count, 100)
+
+
 func test_chasing_moles_stay_on_lane() -> void:
 	var run := _run({"moles": [{"z": 15.0, "x": 3.0, "count": 5, "chase": 50.0}]})
 	run.set_target_x(4.3)

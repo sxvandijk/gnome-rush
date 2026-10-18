@@ -1,6 +1,6 @@
 {
   "boss": {
-    "hp": 2203.0,
+    "hp": 535.0,
     "kind": "mole_king",
     "z": 358.0
   },
@@ -75,77 +75,77 @@
     {
       "left": {
         "op": "add",
-        "value": -42
+        "value": -28
       },
       "right": {
-        "op": "mul",
-        "value": 2
+        "op": "add",
+        "value": 20
       },
       "z": 188.0
     },
     {
       "left": {
-        "op": "mul",
-        "value": 2
+        "op": "add",
+        "value": -21
       },
       "right": {
         "op": "add",
-        "value": 46
+        "value": 40
       },
       "z": 214.0
     },
     {
       "left": {
         "op": "add",
-        "value": -17
+        "value": 22
       },
       "right": {
         "op": "add",
-        "value": 30
+        "value": 66
       },
       "z": 240.0
     },
     {
       "left": {
         "op": "add",
-        "value": 66
+        "value": 27
       },
       "right": {
         "op": "add",
-        "value": 61
+        "value": 73
       },
       "z": 266.0
     },
     {
       "left": {
         "op": "add",
-        "value": -39
+        "value": 58
       },
       "right": {
         "op": "add",
-        "value": 43
+        "value": 63
       },
       "z": 292.0
     },
     {
       "left": {
         "op": "add",
-        "value": 46
+        "value": -42
       },
       "right": {
-        "op": "add",
-        "value": 66
+        "op": "mul",
+        "value": 2
       },
       "z": 318.0
     },
     {
       "left": {
-        "op": "div",
-        "value": 2
+        "op": "add",
+        "value": 74
       },
       "right": {
-        "op": "add",
-        "value": 49
+        "op": "div",
+        "value": 2
       },
       "z": 344.0
     }
@@ -172,22 +172,34 @@
       "z": 149.0
     },
     {
-      "cage": 355,
-      "count": 269,
-      "x": 1.6,
+      "count": 116,
+      "x": 0.5,
       "z": 201.0
     },
     {
-      "cage": 1125,
-      "count": 853,
-      "x": -2.4,
-      "z": 305.0
+      "chase": 1.26,
+      "count": 81,
+      "x": -3.0,
+      "z": 227.0
     },
     {
-      "cage": 1156,
-      "count": 876,
+      "count": 164,
+      "guard": true,
       "x": 2.0,
-      "z": 331.0
+      "z": 289.0
+    },
+    {
+      "count": 321,
+      "guard": true,
+      "x": -2.0,
+      "z": 341.0
+    }
+  ],
+  "mowers": [
+    {
+      "phase": 0.21,
+      "speed": 2.73,
+      "z": 279.0
     }
   ],
   "number": 22,
@@ -195,15 +207,27 @@
   "sprinklers": [
     {
       "phase": 2.72,
-      "push": 3.58,
+      "push": 6.1,
       "speed": 1.04,
       "z": 53.0
     },
     {
       "phase": 4.66,
-      "push": 3.58,
+      "push": 6.1,
       "speed": 1.24,
       "z": 105.0
+    },
+    {
+      "phase": 1.35,
+      "push": 6.1,
+      "speed": 1.32,
+      "z": 157.0
+    },
+    {
+      "phase": 2.94,
+      "push": 6.1,
+      "speed": 1.99,
+      "z": 313.0
     }
   ],
   "start_count": 10
