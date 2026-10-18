@@ -31,8 +31,10 @@ func _ready() -> void:
 	scroll.add_child(list)
 
 	list.add_child(_label("Gnome Rush", 110))
-	for c in CHAPTER_NAMES.size():
-		list.add_child(_label("Hoofdstuk %d · %s" % [c + 1, CHAPTER_NAMES[c]], 64))
+	var count := LevelLoader.level_count()
+	var chapters := ceili(float(count) / LevelGenerator.LEVELS_PER_CHAPTER)
+	for c in chapters:
+		list.add_child(_label("Hoofdstuk %d · %s" % [c + 1, CHAPTER_NAMES[c % CHAPTER_NAMES.size()]], 64))
 		var grid := GridContainer.new()
 		grid.columns = COLUMNS
 		grid.add_theme_constant_override("h_separation", 24)
@@ -41,7 +43,8 @@ func _ready() -> void:
 		list.add_child(grid)
 		for i in LevelGenerator.LEVELS_PER_CHAPTER:
 			var n := c * LevelGenerator.LEVELS_PER_CHAPTER + i + 1
-			grid.add_child(_level_button(n, CHAPTER_COLORS[c]))
+			if n <= count:
+				grid.add_child(_level_button(n, CHAPTER_COLORS[c % CHAPTER_COLORS.size()]))
 
 
 func _level_button(n: int, color: Color) -> Button:

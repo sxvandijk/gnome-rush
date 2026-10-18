@@ -229,7 +229,8 @@ func _fire(dt: float) -> void:
 			continue
 		# Cycle through the visible gnomes so shots spread over the swarm
 		var shooter := shots_fired % mini(army.count, Army.MAX_VISIBLE)
-		acorns.append(Vector2(army.center_x + Army.formation_point(shooter).x, distance))
+		var offset := Army.formation_point(shooter, Army.spacing_for(army.count))
+		acorns.append(Vector2(army.center_x + offset.x, distance))
 		shots_fired += 1
 
 

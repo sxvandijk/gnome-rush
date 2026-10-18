@@ -6,11 +6,10 @@ const LEVEL_DIR := "res://levels/"
 
 
 func test_all_levels_fair_without_shooting() -> void:
-	var files := DirAccess.get_files_at(LEVEL_DIR)
-	assert_gt(files.size(), 0)
+	var files := Array(DirAccess.get_files_at(LEVEL_DIR)).filter(
+		func(f: String) -> bool: return f.begins_with("level_") and f.ends_with(".json"))
+	assert_eq(files.size(), LevelLoader.level_count())
 	for file in files:
-		if not file.ends_with(".json"):
-			continue
 		var level := LevelData.load_json(LEVEL_DIR + file)
 		assert_not_null(level, file)
 		var result := LevelValidator.validate(level)

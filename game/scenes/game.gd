@@ -16,12 +16,12 @@ func _ready() -> void:
 
 
 func play(n: int) -> void:
-	current_level = clampi(n, 1, LevelLoader.LEVEL_COUNT)
+	current_level = clampi(n, 1, LevelLoader.level_count())
 	get_tree().change_scene_to_file(RUN_SCENE)
 
 
 func has_next() -> bool:
-	return current_level < LevelLoader.LEVEL_COUNT
+	return current_level < LevelLoader.level_count()
 
 
 func play_next() -> void:

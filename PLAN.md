@@ -122,7 +122,9 @@ Generator maakt levels uit een seed (= levelnummer); de validator rekent de best
 - [x] `game/logic/difficulty.gd`: marge loopt af van 75% (level 1) naar 5% (level 60); tussenbazen ×0,8, eindbazen ×0,6, nooit onder 3%
 - [x] Obstakelkansen lopen op met het level (bewaakte poorten, maaiers, kooien, achtervolgers, slechte poorten, sproeiers, schuivende poorten)
 - [x] Achtervolgers stoppen op 7 eenheden afstand: op het laatste moment uitwijken lukt altijd (Stan: rode mollen soms niet te ontwijken)
-- [x] Sproeiers heftiger: duw 6 (level 21) tot 10 (level 60) eenheden/s
+- [x] Sproeiers heftiger: duw 6 (level 21) tot 10 eenheden/s
+- [x] Compacter leger: grote legers lopen dichter op elkaar (zwerm max. straal 2,0 i.p.v. 3,0), zodat ontwijken lukt (Stan: leger te groot, blijft haken)
+- [x] Onbeperkt aantal levels: curve vlakt af i.p.v. te stoppen bij 60, rustpunt na elke baas, bestanden `level_0001.json` + `index.json`, hoofdstukken/thema's/bazen herhalen zich (200 levels getest)
 
 ### 6. Afronding
 - [x] Ontwikkelopties: `-- --level=N` start direct in level N, `-- --autopilot` laat de validatorpiloot spelen
@@ -144,13 +146,17 @@ Makkelijk beginnen, later lastiger. Losse mollen die alleen in de weg staan kome
 
 Het spel loopt van makkelijk naar moeilijk. Alles wat moeilijker wordt, hangt alleen van het levelnummer af (`game/logic/difficulty.gd`). De validator rekent de beste route zonder schieten (`best`); die moet de baas altijd halen, met een marge die afneemt:
 
+`marge = 5% + 70% × e^(−(level−1)/35)`: er is geen laatste level, de curve vlakt af.
+
 | Level | Marge `best / levens − 1` | Gevoel |
 |---|---|---|
 | 1 | 75% | ruim, fouten mogen |
-| 30 | ~41% | je moet goed kiezen |
-| 59 | ~6% | bijna perfect spelen of goed schieten |
+| 30 | ~34% | je moet goed kiezen |
+| 60 | ~18% (eindbaas 11%) | weinig ruimte |
+| 100+ | 5–8% | bijna perfect spelen of goed schieten |
 | tussenbaas (elk 5e) | marge × 0,8 | piekje |
-| eindbaas (20, 40, 60) | marge × 0,6, min. 3% | zwaarste van het hoofdstuk |
+| eindbaas (elk 20e) | marge × 0,6, min. 3% | zwaarste van het hoofdstuk |
+| level na een baas | marge × 1,3 | rustpunt |
 
 - Levens = `floor(best / (1 + marge))`, minimaal 5 (tussen-/eindbaas 8). Schieten geeft de speler extra ruimte bovenop de marge.
 - Obstakelkansen per rij lopen lineair op van level 1 naar 60 (zie `LevelGenerator`).

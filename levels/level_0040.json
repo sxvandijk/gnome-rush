@@ -1,0 +1,268 @@
+{
+  "boss": {
+    "hp": 1037.0,
+    "kind": "flamingo_queen",
+    "z": 358.0
+  },
+  "chapter": 2,
+  "gate_pairs": [
+    {
+      "left": {
+        "op": "add",
+        "value": 129
+      },
+      "right": {
+        "op": "add",
+        "value": 134
+      },
+      "z": 32.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": 112
+      },
+      "right": {
+        "op": "mul",
+        "value": 3
+      },
+      "z": 58.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": -80
+      },
+      "right": {
+        "op": "add",
+        "value": 25
+      },
+      "z": 84.0
+    },
+    {
+      "left": {
+        "op": "mul",
+        "value": 2
+      },
+      "right": {
+        "op": "div",
+        "value": 2
+      },
+      "z": 110.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": 87
+      },
+      "right": {
+        "op": "add",
+        "value": 45
+      },
+      "z": 136.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": 53
+      },
+      "right": {
+        "op": "add",
+        "value": 44
+      },
+      "z": 162.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": -83
+      },
+      "right": {
+        "op": "add",
+        "value": 56
+      },
+      "z": 188.0
+    },
+    {
+      "left": {
+        "op": "mul",
+        "value": 2
+      },
+      "right": {
+        "op": "mul",
+        "value": 2
+      },
+      "z": 214.0
+    },
+    {
+      "left": {
+        "op": "div",
+        "value": 2
+      },
+      "right": {
+        "op": "add",
+        "value": 110
+      },
+      "z": 240.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": -48
+      },
+      "right": {
+        "op": "add",
+        "value": 73
+      },
+      "z": 266.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": -49
+      },
+      "right": {
+        "op": "add",
+        "value": 43
+      },
+      "z": 292.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": 126
+      },
+      "right": {
+        "op": "add",
+        "value": -33
+      },
+      "z": 318.0
+    },
+    {
+      "left": {
+        "op": "add",
+        "value": -77
+      },
+      "right": {
+        "op": "mul",
+        "value": 2
+      },
+      "z": 344.0
+    }
+  ],
+  "id": "level_040",
+  "length": 358.0,
+  "moles": [
+    {
+      "count": 38,
+      "guard": true,
+      "x": 2.0,
+      "z": 55.0
+    },
+    {
+      "count": 139,
+      "guard": true,
+      "x": 2.0,
+      "z": 81.0
+    },
+    {
+      "count": 206,
+      "guard": true,
+      "x": -2.0,
+      "z": 107.0
+    },
+    {
+      "cage": 373,
+      "count": 328,
+      "x": -2.8,
+      "z": 123.0
+    },
+    {
+      "count": 287,
+      "guard": true,
+      "x": 2.0,
+      "z": 185.0
+    },
+    {
+      "chase": 1.8,
+      "count": 405,
+      "x": 3.0,
+      "z": 227.0
+    },
+    {
+      "chase": 1.8,
+      "count": 561,
+      "x": -3.0,
+      "z": 253.0
+    },
+    {
+      "count": 744,
+      "guard": true,
+      "x": 2.0,
+      "z": 289.0
+    }
+  ],
+  "mowers": [
+    {
+      "phase": 3.2,
+      "speed": 3.41,
+      "z": 149.0
+    },
+    {
+      "phase": 2.77,
+      "speed": 3.86,
+      "z": 175.0
+    },
+    {
+      "phase": 5.92,
+      "speed": 4.06,
+      "z": 201.0
+    },
+    {
+      "phase": 2.14,
+      "speed": 3.48,
+      "z": 279.0
+    }
+  ],
+  "number": 40,
+  "seed": 40000,
+  "sprinklers": [
+    {
+      "phase": 4.98,
+      "push": 7.9,
+      "speed": 1.53,
+      "z": 27.0
+    },
+    {
+      "phase": 3.05,
+      "push": 7.9,
+      "speed": 1.38,
+      "z": 53.0
+    },
+    {
+      "phase": 4.15,
+      "push": 7.9,
+      "speed": 1.42,
+      "z": 79.0
+    },
+    {
+      "phase": 3.81,
+      "push": 7.9,
+      "speed": 1.75,
+      "z": 105.0
+    },
+    {
+      "phase": 1.24,
+      "push": 7.9,
+      "speed": 1.26,
+      "z": 209.0
+    },
+    {
+      "phase": 5.27,
+      "push": 7.9,
+      "speed": 1.31,
+      "z": 287.0
+    }
+  ],
+  "start_count": 10
+}

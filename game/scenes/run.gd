@@ -138,7 +138,7 @@ func _update_views(delta: float) -> void:
 
 
 func _theme() -> Array:
-	return THEMES[clampi(_level.chapter, 1, THEMES.size()) - 1]
+	return THEMES[(maxi(_level.chapter, 1) - 1) % THEMES.size()]
 
 
 func _end_z() -> float:

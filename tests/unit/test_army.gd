@@ -80,17 +80,31 @@ func test_formation_is_stable_when_growing() -> void:
 
 
 func test_formation_gnomes_do_not_overlap() -> void:
+	for n in [30, 120]:
+		var points := Army.formation(n)
+		var min_dist := INF
+		for i in points.size():
+			for j in range(i + 1, points.size()):
+				min_dist = minf(min_dist, points[i].distance_to(points[j]))
+		assert_gt(min_dist, Army.spacing_for(n) * 0.6)
+
+
+func test_small_armies_keep_prototype_spacing() -> void:
+	assert_eq(Army.spacing_for(1), Army.SPACING)
+	assert_eq(Army.spacing_for(50), Army.SPACING)
+
+
+func test_big_armies_huddle_closer() -> void:
+	assert_lt(Army.spacing_for(120), Army.SPACING)
 	var points := Army.formation(120)
-	var min_dist := INF
-	for i in points.size():
-		for j in range(i + 1, points.size()):
-			min_dist = minf(min_dist, points[i].distance_to(points[j]))
-	assert_gt(min_dist, Army.SPACING * 0.6)
+	for p in points:
+		assert_lte(p.length(), Army.MAX_SWARM_RADIUS + 0.0001)
 
 
 func test_collision_radius() -> void:
 	assert_almost_eq(Army.radius_for(1), 0.27 + 0.3, 0.0001)
-	assert_almost_eq(Army.radius_for(100), 0.27 * 10.0 + 0.3, 0.0001)
-	# Capped at the number of visible gnomes
+	assert_almost_eq(Army.radius_for(36), 0.27 * 6.0 + 0.3, 0.0001)
+	# Never much wider than the swarm cap, and capped at the visible gnomes
+	assert_lt(Army.radius_for(120), Army.MAX_SWARM_RADIUS + Army.RADIUS_MARGIN + 0.05)
 	assert_eq(Army.radius_for(500), Army.radius_for(120))
 	assert_eq(Army.new(100, 4.3).radius(), Army.radius_for(100))

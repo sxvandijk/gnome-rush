@@ -18,7 +18,7 @@ Werk zo zelfstandig mogelijk. Vraag alleen iets bij keuzes die geld kosten, acco
 - Referentie voor gevoel en getallen: het browserprototype (Stan heeft de link). Neem de regels over, niet de code.
 
 ## Eerlijkheid (harde regels, nooit van afwijken)
-- Het spel loopt van makkelijk naar moeilijk. Een levelvalidator rekent per level de beste route uit zonder schieten en zonder betaalde hulp. Die route moet de baas altijd verslaan, met een marge die afneemt met het levelnummer: 75% in level 1 tot 5% in level 60, bazenlevels iets krapper, nooit onder 3% (`game/logic/difficulty.gd`). Levels die dat niet halen, worden niet geladen.
+- Het spel loopt van makkelijk naar moeilijk. Een levelvalidator rekent per level de beste route uit zonder schieten en zonder betaalde hulp. Die route moet de baas altijd verslaan, met een marge die afneemt met het levelnummer: 75% in level 1, ~11% rond level 60, op lange termijn 5%; bazenlevels iets krapper, het level na een baas iets ruimer, nooit onder 3% (`game/logic/difficulty.gd`). Levels die dat niet halen, worden niet geladen.
 - Moeilijkheid hangt alleen af van het levelnummer. Nooit van advertenties, aankopen, highscore of speelgedrag.
 - Het spel zorgt nooit expres voor verlies om een revive-advertentie te tonen.
 - Willekeur alleen via seeds; elk level is reproduceerbaar.
@@ -40,7 +40,7 @@ Werk zo zelfstandig mogelijk. Vraag alleen iets bij keuzes die geld kosten, acco
 ## Techniek en structuur
 - `game/logic/`: pure scripts zonder scène (leger, poorten, gevecht, levelgenerator, validator). Volledig getest met GUT.
 - `game/scenes/`: weergave, input, camera, effecten. Gebruik MultiMeshInstance3D voor de kabouters.
-- `levels/`: levels als JSON. De validator draait in de tests over alle levels.
+- `levels/`: levels als JSON (`level_0001.json` …, aantal in `index.json`). Het aantal levels is onbeperkt: maak er meer met `tools/generate_levels.gd -- --count=N`. De validator draait in de tests over alle levels.
 - Doel: 60 fps op een iPhone uit 2020, Compatibility- of Mobile-renderer.
 - Godot op deze pc (niet in PATH):
   - editor: `D:\Ai\Spullen voor claude\Godot\Godot_v4.7.2-stable_win64.exe`

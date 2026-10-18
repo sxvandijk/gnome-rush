@@ -23,7 +23,7 @@ const MINI_BOSSES := ["cat", "magpie", "sprinkler_robot"]
 const END_BOSSES := ["mole_king_xl", "flamingo_queen", "koi_emperor"]
 
 # The level each variant first appears at; chances per row ramp up from the
-# first value (level 1) to the second (level 60), see chance()
+# first value (level 1) towards the second (long run), see chance()
 const GUARD_FROM := 2
 const GUARD_CHANCE := [0.15, 0.35]
 const MOWER_FROM := 3
@@ -66,7 +66,7 @@ static func boss_kind(n: int) -> String:
 	return "mole_king"
 
 
-## Chance per row for level n, from a [level 1, level 60] pair.
+## Chance per row for level n, from an [easy, hard] pair.
 static func chance(n: int, range_: Array) -> float:
 	return Difficulty.ramp(n, range_[0], range_[1])
 
