@@ -90,7 +90,7 @@ Waarden uit `docs/prototype-waarden.md`. Alle regels in `game/logic/`, met een v
 - [x] Achtervolgers (`chase`): schuiven binnen 20 eenheden zijwaarts naar het leger (roodbruin)
 - [x] `moles_defeated` geteld voor munten per mol (M4)
 
-## M3 Levels
+## M3 Levels ✅ (afgerond 2026-10-18)
 
 Generator maakt levels uit een seed (= levelnummer); de validator rekent de beste route uit zonder schieten en weigert oneerlijke levels. Levels worden als JSON in `levels/` opgeslagen en bij het laden opnieuw gecontroleerd.
 
@@ -128,7 +128,43 @@ Generator maakt levels uit een seed (= levelnummer); de validator rekent de best
 
 ### 6. Afronding
 - [x] Ontwikkelopties: `-- --level=N` start direct in level N, `-- --autopilot` laat de validatorpiloot spelen
-- [ ] Nieuwe IPA, samenvatting + testinstructies; Stan test op iPhone
+- [x] Nieuwe IPA, samenvatting + testinstructies; Stan test op iPhone (werkt, ontwijken soms nog niet perfect → TODO.md)
+
+## M4 Voortgang
+
+Alle regels in `game/logic/` (getest), opslaan en schermen in `game/scenes/`. Waarden: prototype waar mogelijk, aangepast aan onze grotere legers.
+
+### 1. Voortgang en opslaan
+- [ ] `Progress` (logica): vrijgespeelde levels, sterren per level, munten, upgrades, skins, dagelijkse uitdaging, eindeloos-record; `to_dict`/`from_dict` met versienummer
+- [ ] Opslaan in `user://progress.json` na elke wijziging; kapot of ontbrekend bestand = nieuwe voortgang
+
+### 2. Sterren en munten (`Rewards`)
+- [ ] Sterren bij winst, op basis van over `r = over / (best − levens)`: 3 bij `r ≥ 0,6`, 2 bij `r ≥ 0,25`, anders 1
+- [ ] Munten bij winst: `10 + 5×level + 3×√over + 5×sterren + verslagen mollen/10`, × muntbonus
+- [ ] Beste score per level blijft bewaard (sterren gaan nooit omlaag)
+
+### 3. Upgrades (met munten, kosten `30 × (niveau+1)^1,5` uit het prototype)
+- [ ] Groter startleger: +5 per niveau (max. 20)
+- [ ] Sneller schieten: +1,5 eikels/s per niveau (max. 10)
+- [ ] Schade: eikels op de baas +0,1 per niveau (max. 10)
+- [ ] Muntopbrengst: +10% per niveau (max. 10)
+- [ ] Upgrades tellen niet mee in de validator (die rekent zonder hulp)
+
+### 4. Skins (alleen uiterlijk)
+- [ ] Catalogus met kleuren voor lijf en muts; Klassiek gratis, de rest voor munten; een paar alleen via skinpakketten (M5)
+- [ ] Gekozen skin zichtbaar in het spel
+
+### 5. Levelkaart
+- [ ] Kronkelend pad omhoog met genummerde levels, sterren, slotjes; bazen gemarkeerd; hoofdstukbordjes
+- [ ] Tekent alleen het zichtbare stuk, zodat duizenden levels kunnen
+- [ ] Opent bij je huidige level; munten en winkel bovenin
+
+### 6. Dagelijkse uitdaging en eindeloze modus
+- [ ] Dagelijks: level uit de datum (seed `jjjjmmdd`), moeilijkheid volgens je voortgang; eenmaal per dag beloning
+- [ ] Eindeloos: rijen blijven komen en worden steeds lastiger, geen baas; score = gehaalde rijen; record bewaard; munten per rij
+
+### 7. Afronding
+- [ ] Nieuwe IPA, samenvatting + testinstructies
 
 ## Ontwerp: mollen per level (uitwerking in M3)
 
